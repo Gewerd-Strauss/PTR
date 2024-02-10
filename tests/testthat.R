@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(PotTrayRequirements)
+library(PTR)
 
-test_check("PotTrayRequirements")
+test_check("PTR")
