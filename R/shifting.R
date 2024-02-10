@@ -151,7 +151,7 @@ PTR_rotatePots <- function(boards, shifts = 2) {
     print(new_labels)
     input <- boards$board_01$input
     input$lbls <- new_labels
-    ret <- PTR_generateBoardLayouts(pots = input$pots, board_width = input$board_width, board_height = input$board_height, radius = input$radius, distance = input$distance, lbls = input$lbls)
+    ret <- PTR_generateBoardLayouts(pots = input$pots, board_width = input$board_width, board_height = input$board_height, pot_radius = input$pot_radius, distance = input$distance, lbls = input$lbls)
 
     return(ret)
 }
