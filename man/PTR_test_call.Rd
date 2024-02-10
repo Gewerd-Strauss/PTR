@@ -8,7 +8,11 @@ This function is mostly supposed to be used for testing purposes, and should not
 PTR_test_call(set = 1)
 }
 \arguments{
-\item{set}{Select a dummy testset and return the results of `PTR_generateBoardLayouts`. As a rule, higher values for 'set' become more calculation-intense}
+\item{set}{Select a dummy testset and return the results
+of `PTR_generateBoardLayouts`/`PTR_generateBoardLayouts2`.
+As a rule, higher values for 'set' become more calculation-intense
+Sets 1-3 leverage `PTR_generateBoardLayouts`
+Sets 4-5 leverage `PTR_generateBoardLayouts2`}
 }
 \value{
 Layouts as defined by `PTR_generateBoardLayouts`

@@ -2,7 +2,7 @@
 % Please edit documentation in R/PTR_generateBoardLayouts.R
 \name{PTR_generateBoardLayouts}
 \alias{PTR_generateBoardLayouts}
-\title{Title}
+\title{Generate Board-Layouts for a number of pots.}
 \usage{
 PTR_generateBoardLayouts(
   pots = NA,
@@ -35,15 +35,19 @@ Additionally, the input data and a mapping of coordinates to pot-names
 plotted is returned
 }
 \description{
-Title
+Given the dimensions of the pot, the number of required pots and the
+dimensions of the shelf-boards, calculate the required number of occupied
+boards. Optionally assign custom labels to them.
+}
+\details{
+WARNING: This function does not support rectangular pots. For that, use
+`PTR_generateBoardLayouts2`
 }
 \examples{
-\dontrun{
 pots <- 34
 board_width <- 31 # in [unit] - width of a board-section
 board_height <- 30 # in [unit] - height of a board-section
 pot_radius <- 3.625 # in [unit] - radius of a pot/the bounding circle/platter
 distance <- 0 # in [unit] - spacing between adjacent pots
 boardLayout <- PTR_generateBoardLayouts(pots, board_width, board_height, pot_radius, distance)
-}
 }
