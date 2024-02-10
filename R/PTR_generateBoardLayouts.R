@@ -12,7 +12,7 @@
 #' A board is defined as one of the 2 single elements used
 #' @param board_height The height of a single board.
 #' See 'board_width' for details
-#' @param radius The radius of a pot
+#' @param pot_radius The radius of a pot
 #' @param distance The spacing distance between two pots.
 #' @param lbls vector of length 'pots' consisting of custom names for each pot.
 #' Will be assigned in from bottom-left to top-right
@@ -37,7 +37,7 @@
 #' @export
 #' @name PTR_generateBoardLayouts
 #' @example man/examples/PTR_generateBoardLayouts.R
-PTR_generateBoardLayouts <- function(pots = NA, board_width = NA, board_height = NA, radius = NA, distance = NA, lbls = FALSE) {
+PTR_generateBoardLayouts <- function(pots = NA, board_width = NA, board_height = NA, pot_radius = NA, distance = NA, lbls = FALSE) {
     if (is.na(pots)) {
         stop(simpleError(str_c("generateBoardLayouts: Required Argument 'pots' was not supplied. Must be an integer")))
     }
@@ -47,8 +47,8 @@ PTR_generateBoardLayouts <- function(pots = NA, board_width = NA, board_height =
     if (is.na(board_height)) {
         stop(simpleError(str_c("generateBoardLayouts: Required Argument 'board_height' was not supplied. Must be a numeric")))
     }
-    if (is.na(radius)) {
-        stop(simpleError(str_c("generateBoardLayouts: Required Argument 'radius' was not supplied. Must be a numeric")))
+    if (is.na(pot_radius)) {
+        stop(simpleError(str_c("generateBoardLayouts: Required Argument 'pot_radius' was not supplied. Must be a numeric")))
     }
     if (is.na(distance)) {
         stop(simpleError(str_c("generateBoardLayouts: Required Argument 'distance' was not supplied. Must be a numeric")))
@@ -59,8 +59,8 @@ PTR_generateBoardLayouts <- function(pots = NA, board_width = NA, board_height =
             stop(simpleError(str_c("generateBoardLayouts: Optional Argument 'lbls' must be either ignored, FALSE, or a vector of length 'pots' declaring one label per plot.")))
         }
     }
-    inputs <- list(pots = pots, board_width = board_width, board_height = board_height, radius = radius, distance = distance, lbls = lbls)
-    ret <- get_boards(board_width, board_height, radius, distance, pots)
+    inputs <- list(pots = pots, board_width = board_width, board_height = board_height, pot_radius = pot_radius, distance = distance, lbls = lbls)
+    ret <- get_boards(board_width, board_height, pot_radius, distance, pots)
     pots_in_tray <- ret$pots_in_tray
     boards_required <- ret$boards_required
     layouts <- list() ## init holding var
@@ -122,11 +122,11 @@ PTR_generateBoardLayouts <- function(pots = NA, board_width = NA, board_height =
             y <- y[1:(pots - plotted_pots)]
         }
 
-        circle <- function(x, y, radius) {
+        circle <- function(x, y, pot_radius) {
             data.frame(
                 x = x,
                 y = y,
-                r = radius
+                r = pot_radius
             )
         }
 
@@ -140,7 +140,7 @@ PTR_generateBoardLayouts <- function(pots = NA, board_width = NA, board_height =
             geom_point(data = df_points, aes(x = x, y = y), color = "black") +
             geom_text(data = df_points, aes(x = x, y = y, label = Label_), vjust = -0.5) + # add labels
             geom_rect(aes(xmin = rectangle_x[1], xmax = rectangle_x[2], ymin = rectangle_y[1], ymax = rectangle_y[2]), alpha = 0, color = "black") +
-            geom_circle(data = circle(x, y, radius), aes(x0 = x, y0 = y, r = r), color = "blue", fill = NA) +
+            geom_circle(data = circle(x, y, pot_radius), aes(x0 = x, y0 = y, r = r), color = "blue", fill = NA) +
             scale_x_continuous(name = "[units]", n.breaks = 2 * length(unique(x)) + 1, limits = limits_x) +
             scale_y_continuous(name = "[units]", n.breaks = 2 * length(unique(y)) + 1, limits = limits_y) +
             ggtitle(label = paste("Board ", board_INDEX)) +

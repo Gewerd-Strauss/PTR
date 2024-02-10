@@ -63,20 +63,20 @@ get_boards2 <- function(board_width, board_height, pot_radius, pot_diameter, pot
         while (length(board$pot_centers) < pots_to_add) {
             if (board$pot_count == 0) {
                 board$pot_count <- 1
-                board$pot_centers[[1]] <- list(x = pot_radius, y = pot_radius, radius = pot_radius, diameter = pot_diameter)
+                board$pot_centers[[1]] <- list(x = pot_radius, y = pot_radius, pot_radius = pot_radius, diameter = pot_diameter)
             } else {
                 x <- board$pot_centers[[board$pot_count]]$x
                 y <- board$pot_centers[[board$pot_count]]$y
 
                 if (x + pot_diameter <= board$width && y + (pot_diameter / 2) <= board$height) {
                     board$pot_count <- board$pot_count + 1
-                    board$pot_centers[[board$pot_count]] <- list(x = x + 2 * pot_radius, y = y, radius = pot_radius, diameter = pot_diameter)
+                    board$pot_centers[[board$pot_count]] <- list(x = x + 2 * pot_radius, y = y, pot_radius = pot_radius, diameter = pot_diameter)
                 } else {
                     x <- pot_radius
                     y <- y + 2 * pot_radius
                     if (y + 1 * pot_radius <= board$height) {
                         board$pot_count <- board$pot_count + 1
-                        board$pot_centers[[board$pot_count]] <- list(x = x, y = y, radius = pot_radius, diameter = pot_diameter)
+                        board$pot_centers[[board$pot_count]] <- list(x = x, y = y, pot_radius = pot_radius, diameter = pot_diameter)
                     } else {
                         print("Reached maximum height of the board")
                         break
