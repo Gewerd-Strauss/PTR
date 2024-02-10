@@ -71,6 +71,49 @@ PTR_rotateBoards <- function(boards, shifts = -1) {
     return(ret)
 }
 
+#' rotate Boards forward or backwards through the list.
+#'
+#' To shift the pots themselves, consider using `PTR_rotatePots2`
+#' @param boards boards to shift around
+#' @param shifts steps to shift. Positive integers shift a board to the next-up
+#' position (last board becomes the first, first board becomes 2nd), while
+#' negative integers move them backwards (e.g. the 2nd board becomes the first
+#' board and the first board moves to the last position.
+#'
+#' @importFrom stringr str_c
+#' @return a new set of boards containing shifted pots
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' ob2 <- PTR_load_dummy_data(5) # load example dummy data for the `2`-functions
+#' nb21 <- PTR_rotateBoards2(ob2,-1) # board 1 goes to last position, board 2
+#' goes to first position
+#' nb22 <- PTR_rotateBoards2(ob2,+1) # board 1 goes to 2nd position, last board
+#' goes to first position
+#' }
+PTR_rotateBoards2 <- function(boards, shifts = -1) {
+    if (abs(shifts) == length(boards)) {
+        swarning <- simpleWarning(str_c("rotateBoards(): ", "Your shift will be perfectly circular, putting every board in its previous place."))
+        warning(swarning)
+    } else if (abs(shifts) > length(boards)) {
+        swarning <- simpleWarning(str_c("rotateBoards(): ", "You are trying to shift each board by more than a full rotation (", length(boards), " boards total). Consider shifting by only (", shifts - length(boards), ") places to obtain the same result in the future."))
+        shifts <- shifts - length(boards)
+        warning(swarning)
+    }
+    curr_names <- names(boards)
+    new_names <- shifter(curr_names, shifts)
+    ret <- list()
+    i <- 0
+    for (name in new_names) {
+        i <- i + 1
+        object <- boards[[name]] ## get future board
+        name_ <- curr_names[[i]] ## get key to current position
+        object$board_plot$labels$title <- str_c(name_)
+        ret[[name_]] <- object ## and save the object to its current name.
+    }
+    return(ret)
+}
 #' Title
 #'
 #' To shift the boards themselves, consider using `PTR_rotateBoards`
