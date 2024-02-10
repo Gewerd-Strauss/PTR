@@ -8,11 +8,11 @@
 #' @keywords internal
 #' @importFrom stringr str_c
 #'
-#' @examples num_new <- padToLength(1,3)
-padToLength <- function(number, length_to_pad_to) {
+#' @examples num_new <- pad_to_length(1,3)
+pad_to_length <- function(number, length_to_pad_to) {
     if (isFALSE(is.integer(as.integer(number)))) {
-        sW <- simpleWarning(str_c("<number> is not of type <integer>. This might be okay, but be aware"))
-        warning(sW)
+        swarning <- simpleWarning(str_c("<number> is not of type <integer>. This might be okay, but be aware"))
+        warning(swarning)
     }
     cond <- str_length(number) < length_to_pad_to
         number[cond] <- str_c("0", number[cond])
@@ -25,7 +25,7 @@ padToLength <- function(number, length_to_pad_to) {
 #' @keywords internal
 #' @importFrom stringr str_c
 #'
-warnIterations <- function(it) {
+warn_iterations <- function(it) {
     askYesNo(str_c("The number of required iterations is above ", it, ". This might take some time, so you might want to consider different restraints. Do you want to continue with current inputs?"))
 }
 #' Title
@@ -36,10 +36,10 @@ warnIterations <- function(it) {
 #' @export
 #' @keywords internal
 #'
-collectLabels <- function(boards) {
+collect_labels <- function(boards) {
     ret <- c()
     for (board in boards) {
-        ret <- append(ret,board$input$lbls)
+        ret <- append(ret, board$input$lbls)
     }
     return(ret)
 }
