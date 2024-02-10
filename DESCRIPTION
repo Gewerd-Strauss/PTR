@@ -1,4 +1,4 @@
-Package: PotTrayRequirements
+Package: PTR
 Type: Package
 Title: Generate Tray-Layouts for N Pots Based On Pot-Diameter And Tray-Size
 Version: 0.1.0
@@ -14,3 +14,6 @@ Imports:
     ggforce,
     ggplot2,
     stringr
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
