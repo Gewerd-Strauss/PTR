@@ -143,7 +143,7 @@ PTR_generateBoardLayouts <- function(pots = NA, board_width = NA, board_height =
             geom_circle(data = circle(x, y, radius), aes(x0 = x, y0 = y, r = r), color = "blue", fill = NA) +
             scale_x_continuous(name = "[units]", n.breaks = 2 * length(unique(x)) + 1, limits = limits_x) +
             scale_y_continuous(name = "[units]", n.breaks = 2 * length(unique(y)) + 1, limits = limits_y) +
-            ggtitle(label = "", subtitle = str_c("board {", board_INDEX, "}")) +
+            ggtitle(label = paste("Board ", board_INDEX)) +
             theme_minimal()
         rownames(df_points) <- df_points$Label_
         df_points <- subset(df_points, select = c("Label_"))

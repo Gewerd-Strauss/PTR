@@ -63,9 +63,9 @@ PTR_rotateBoards <- function(boards, shifts = -1) {
     i <- 0
     for (name in new_names) {
         i <- i + 1
-        object <- boards[[name]] # get future board
-        name_ <- curr_names[[i]] # get key to current position
-        object$board_plot$labels$subtitle <- str_c(name_, " (previously ", name, ")")
+        object <- boards[[name]] ## get future board
+        name_ <- curr_names[[i]] ## get key to current position
+        object$board_plot$labels$title <- str_c(name_)
         ret[[name_]] <- object ## and save the object to its current name.
     }
     return(ret)
@@ -140,10 +140,8 @@ PTR_rotatePots_WHAT_DOES_THIS_FUNCTION_DO <- function(boards, shifts = -1) {
 
     # Print the sorted vector
     print(new_labels)
-
     input <- boards$board_1$input
     input$lbls <- new_labels
     ret <- PTR_generateBoardLayouts(pots = input$pots, board_width = input$board_width, board_height = input$board_height, radius = input$radius, distance = input$distance, lbls = input$lbls)
-
     return(ret)
 }
