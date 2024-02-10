@@ -49,10 +49,10 @@ PTR_rotateBoards <- function(boards, shifts = -1) {
     ## 6. once labels are resorted, feed them to generateBoardLayout
     ## 7. generateBoardLayout shoudl then generate a new order
     ## 8. return a modified object that notes how many shifts were calculated
-    if (shifts == length(boards)) {
+    if (abs(shifts) == length(boards)) {
         swarning <- simpleWarning(str_c("rotateBoards(): ", "Your shift will be perfectly circular, putting every board in its previous place."))
         warning(swarning)
-    } else if (shifts > length(boards)) {
+    } else if (abs(shifts) > length(boards)) {
         swarning <- simpleWarning(str_c("rotateBoards(): ", "You are trying to shift each board by more than a full rotation (", length(boards), " boards total). Consider shifting by only (", shifts - length(boards), ") places to obtain the same result in the future."))
         shifts <- shifts - length(boards)
         warning(swarning)
