@@ -1,0 +1,139 @@
+#' Title
+#'
+#' @param x - vector to shift on
+#' @param n - steps to shift. Positive integers shift left-to-right, while positive integers shift right-to-left
+#' @importFrom utils head
+#' @importFrom utils tail
+#' @return a shifted vector
+#' @keywords internal
+#' @noRd
+#'
+#' @example shifter(c(1,2,3,4,5),-2)
+shifter <- function(x, n = 1) {
+    if (n == 0) x else c(tail(x, -n), head(x, n))
+}
+#' Title
+#'
+#' To shift the boards themselves, consider using `PTR_rotatePots`
+#' @param boards boards to shift around
+#' @param shifts steps to shift. Positive integers shift left-to-right, while positive integers shift right-to-left
+#'
+#' @importFrom stringr str_c
+#' @return a new set of boards containing shifted pots
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' oldBoards <- PTR_generateBoardLayouts(40, 20, 20, 5, 0)
+#' newBoards <- PTR_rotateBoards(oldBoards, -2)
+#' }
+PTR_rotateBoards <- function(boards, shifts = -1) {
+
+    ## 1. get Boards
+    ## 2. duplicate to one variable dupl_
+    ## 3. extract the pots from boards in dupl_
+    ## 4. for each set, extract the labels
+    ## 5. then resort the label-packs by adding integer <shifts>
+    ## 5.1. must wrap around at the back
+    ## 6. once labels are resorted, feed them to generateBoardLayout
+    ## 7. generateBoardLayout shoudl then generate a new order
+    ## 8. return a modified object that notes how many shifts were calculated
+    # bc <- listSizedOf(boards)
+    if (shifts == length(boards)) {
+        sW <- simpleWarning(str_c("rotateBoards(): ", "Your shift will be perfectly circular, putting every board in its previous place."))
+        warning(sW)
+    } else if (shifts > length(boards)) {
+        sW <- simpleWarning(str_c("rotateBoards(): ", "You are trying to shift each board by more than a full rotation (", length(boards), " boards total). Consider shifting by only (", shifts - length(boards), ") places to obtain the same result in the future."))
+        shifts <- shifts - length(boards)
+        warning(sW)
+    }
+    curr_names <- names(boards)
+    new_names <- shifter(curr_names, shifts)
+    ret <- list()
+    i <- 0
+    for (name in new_names) {
+        i <- i + 1
+        object <- boards[[name]] # get future board
+        name_ <- curr_names[[i]] # get key to current position
+        object$board_plot$labels$subtitle <- str_c(name_, " (previously ", name, ")")
+        ret[[name_]] <- object ## and save the object to its current name.
+    }
+    return(ret)
+}
+
+#' Title
+#'
+#' To shift the boards themselves, consider using `PTR_rotateBoards`
+#' @param boards boards in which pots are to be shifted within
+#' @param shifts steps to shift. Positive integers shift  clockwise,
+#' while negative integers shift left-to-right,bottom-to-top
+#'
+#' @return boards with shifted pots. The boards themselves remain at their location.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' oldBoards <- generateBoardLayouts(40, 20, 20, 5, 0)
+#' newBoards <- rotatePots(oldBoards, -2)
+#' }
+PTR_rotatePots <- function(boards, shifts = 2) {
+    # Function will rotate pots within each boards
+    # This is done by iterating over the currently assigned labels embedded
+    # into a boards-object, and rotating the elements of its `lbls` by `shifts`
+    ret <- list()
+
+    # Print the sorted vector
+    new_labels <- c()
+    for (board in boards) {
+        lbls_rotated <- shifter(board$input$lbls[1:dim(board$points)[[1]]],shifts)
+        if (length(board$input$lbls)>length(lbls_rotated)) {
+            ## we rotated a label-set of a board that was not fully filled.
+            ## Insert a dummy-pot so that the next set of labels doesn't frame-
+            ## shift to the left by `diff`
+            lbls_rotated <- append(lbls_rotated,"PTR_DUMMY",length(board$input$lbls)-length(lbls_rotated))
+            lbls_rotated <- c(lbls_rotated,rep("PTR_DUMMY",length(board$input$lbls)-length(lbls_rotated)))
+        }
+        new_labels <- append(new_labels,lbls_rotated)
+    }
+    print(new_labels)
+    input <- boards$board_01$input
+    input$lbls <- new_labels
+    ret <- PTR_generateBoardLayouts(pots = input$pots,board_width = input$board_width,board_height = input$board_height,radius = input$radius,distance = input$distance,lbls = input$lbls)
+
+    return(ret)
+}
+PTR_rotatePots_WHAT_DOES_THIS_FUNCTION_DO <- function(boards, shifts = -1) {
+    # Function will rotate pots within each boards
+    # TODO: the current function contents does not do this. It does something, but I forgot what purpose _this_ code actually has.
+    ret <- list()
+
+    # Function to extract group indices
+    get_group_index <- function(label) {
+        l <- strsplit(label, "_")
+        r <- unlist(l)
+        if (length(r)==2) {
+            f <- r[2]
+        } else if (length(r)==1) {
+            f <- r
+        }
+        return(f)
+    }
+    old_labels <- collectLabels(boards)
+    # Extract group indices from old_labels
+    group_indices <- sapply(old_labels, get_group_index)
+
+    # Create a sorting index to sort by group indices
+    sorting_index <- order(group_indices, old_labels)
+
+    # Sort old_labels using the sorting index
+    new_labels <- old_labels[sorting_index]
+
+    # Print the sorted vector
+    print(new_labels)
+
+    input <- boards$board_1$input
+    input$lbls <- new_labels
+    ret <- PTR_generateBoardLayouts(pots = input$pots,board_width = input$board_width,board_height = input$board_height,radius = input$radius,distance = input$distance,lbls = input$lbls)
+
+    return(ret)
+}
