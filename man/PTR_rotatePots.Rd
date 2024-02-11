@@ -21,6 +21,7 @@ To shift the boards themselves, consider using `PTR_rotateBoards`
 \examples{
 \dontrun{
 consecutive_groups <- PTR_load_dummy_data(4) # load example dummy data for the `1`-functions
-newBoards <- rotatePots(oldBoards, -2)
+newBoards <- PTR_rotatePots(oldBoards, -2)
 }
 }
+\keyword{internal}

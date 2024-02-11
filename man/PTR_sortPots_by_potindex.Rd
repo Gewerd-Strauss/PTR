@@ -29,6 +29,6 @@ This requires that the number is separable from the group-name
 boards_with_consecutive_groups <- PTR_load_dummy_data(4) # load example dummy data
 # with custom group-names `c("UU","UG","ABAU","ABAG")`, each repeated 8
 # times (`UU1,UU2,UU3,...UG1,UG2,...ABAU1,ABAU2,...ABAG1,...ABAG8`)
-newBoards <- rotatePots(oldBoards, -2)
+newBoards <- PTR_rotatePots(oldBoards, -2)
 }
 }

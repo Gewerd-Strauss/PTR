@@ -29,3 +29,4 @@ nb22 <- PTR_rotateBoards2(ob2, +1) # board 1 goes to 2nd position, last board
 # goes to first position
 }
 }
+\keyword{internal}

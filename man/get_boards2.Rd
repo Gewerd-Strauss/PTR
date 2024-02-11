@@ -40,3 +40,4 @@ a 'board'-object containing
 \description{
 Title
 }
+\keyword{internal}
