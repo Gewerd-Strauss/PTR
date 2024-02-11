@@ -152,12 +152,12 @@ PTR_rotateBoards2 <- function(boards, shifts = -1) {
 #' while negative integers shift left-to-right,bottom-to-top
 #'
 #' @return boards with shifted pots. The boards themselves remain at their location.
-#' @export
+#' @keywords internal
 #'
 #' @examples
 #' \dontrun{
 #' consecutive_groups <- PTR_load_dummy_data(4) # load example dummy data for the `1`-functions
-#' newBoards <- rotatePots(oldBoards, -2)
+#' newBoards <- PTR_rotatePots(oldBoards, -2)
 #' }
 PTR_rotatePots <- function(boards, shifts = 2) {
   # Function will rotate pots within each boards
@@ -222,7 +222,7 @@ PTR_rotatePots <- function(boards, shifts = 2) {
 #' boards_with_consecutive_groups <- PTR_load_dummy_data(4) # load example dummy data
 #' # with custom group-names `c("UU","UG","ABAU","ABAG")`, each repeated 8
 #' # times (`UU1,UU2,UU3,...UG1,UG2,...ABAU1,ABAU2,...ABAG1,...ABAG8`)
-#' newBoards <- rotatePots(oldBoards, -2)
+#' newBoards <- PTR_rotatePots(oldBoards, -2)
 #' }
 PTR_sortPots_by_potindex <- function(boards, shifts = -1) {
   # Function will rotate pots within each boards
