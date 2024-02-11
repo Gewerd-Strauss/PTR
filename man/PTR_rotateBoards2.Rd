@@ -23,9 +23,9 @@ To shift the pots themselves, consider using `PTR_rotatePots2`
 \examples{
 \dontrun{
 ob2 <- PTR_load_dummy_data(5) # load example dummy data for the `2`-functions
-nb21 <- PTR_rotateBoards2(ob2,-1) # board 1 goes to last position, board 2
-goes to first position
-nb22 <- PTR_rotateBoards2(ob2,+1) # board 1 goes to 2nd position, last board
-goes to first position
+nb21 <- PTR_rotateBoards2(ob2, -1) # board 1 goes to last position, board 2
+# goes to first position
+nb22 <- PTR_rotateBoards2(ob2, +1) # board 1 goes to 2nd position, last board
+# goes to first position
 }
 }

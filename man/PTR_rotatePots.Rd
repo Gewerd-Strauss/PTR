@@ -20,7 +20,7 @@ To shift the boards themselves, consider using `PTR_rotateBoards`
 }
 \examples{
 \dontrun{
-oldBoards <- generateBoardLayouts(40, 20, 20, 5, 0)
+consecutive_groups <- PTR_load_dummy_data(4) # load example dummy data for the `1`-functions
 newBoards <- rotatePots(oldBoards, -2)
 }
 }

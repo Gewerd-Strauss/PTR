@@ -8,7 +8,7 @@ PTR_generateBoardLayouts(
   pots = NA,
   board_width = NA,
   board_height = NA,
-  radius = NA,
+  pot_radius = NA,
   distance = NA,
   lbls = FALSE
 )
@@ -22,7 +22,7 @@ A board is defined as one of the 2 single elements used}
 \item{board_height}{The height of a single board.
 See 'board_width' for details}
 
-\item{radius}{The radius of a pot}
+\item{pot_radius}{The radius of a pot}
 
 \item{distance}{The spacing distance between two pots.}
 

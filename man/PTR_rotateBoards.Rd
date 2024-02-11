@@ -2,24 +2,30 @@
 % Please edit documentation in R/shifting.R
 \name{PTR_rotateBoards}
 \alias{PTR_rotateBoards}
-\title{Title}
+\title{rotate Boards forward or backwards through the list.}
 \usage{
 PTR_rotateBoards(boards, shifts = -1)
 }
 \arguments{
 \item{boards}{boards to shift around}
 
-\item{shifts}{steps to shift. Positive integers shift left-to-right, while positive integers shift right-to-left}
+\item{shifts}{steps to shift. Positive integers shift a board to the next-up
+position (last board becomes the first, first board becomes 2nd), while
+negative integers move them backwards (e.g. the 2nd board becomes the first
+board and the first board moves to the last position.}
 }
 \value{
 a new set of boards containing shifted pots
 }
 \description{
-To shift the boards themselves, consider using `PTR_rotatePots`
+To shift the pots themselves, consider using `PTR_rotatePots`
 }
 \examples{
 \dontrun{
-oldBoards <- PTR_generateBoardLayouts(40, 20, 20, 5, 0)
-newBoards <- PTR_rotateBoards(oldBoards, -2)
+ob1 <- PTR_load_dummy_data(3) # load example dummy data for the `1`-functions
+nb11 <- PTR_rotateBoards(ob2, -1) # board 1 goes to last position, board 2
+# goes to first position
+nb12 <- PTR_rotateBoards(ob2, +1) # board 1 goes to 2nd position, last board
+# goes to first position
 }
 }
