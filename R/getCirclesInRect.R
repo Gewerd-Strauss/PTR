@@ -11,25 +11,25 @@
 #' @noRd
 #'
 get_circles_in_rectangle <- function(board_width, board_height, pot_radius, distance = 0) {
-    p_x <- p_y <- c()
-    diameter <- pot_radius * 2
-    n_circles <- 0
+  p_x <- p_y <- c()
+  diameter <- pot_radius * 2
+  n_circles <- 0
 
-    if (((diameter + distance) <= board_width) && (diameter + distance) <= board_height) {
-        pos_x <- pot_radius # initialise the X/Y-position of the first circle's center
-        pos_y <- pot_radius
+  if (((diameter + distance) <= board_width) && (diameter + distance) <= board_height) {
+    pos_x <- pot_radius # initialise the X/Y-position of the first circle's center
+    pos_y <- pot_radius
 
-        while ((pos_y + pot_radius) <= board_height) { # check - for circle-origin (pos_x,pos_y), is the circle projected within the bounding restrictions?
-            while ((pos_x + pot_radius) <= board_width) {
-                n_circles <- n_circles + 1 # we successfully managed to put a circle at a corner of the box
-                pos_x <- pos_x + (diameter + distance) # move the x-pointer over by a full circle (plus spacing). This positions the next circle to be adjacent to the previous circle perpendicular to the x-axis
-                p_x <- c(p_x, pos_x - (diameter + distance))
-                p_y <- c(p_y, pos_y)
-            }
-            pos_x <- (diameter / 2)
-            pos_y <- pos_y + (diameter + distance) # move the y-pointer over by a full circle, see comment above
-        }
+    while ((pos_y + pot_radius) <= board_height) { # check - for circle-origin (pos_x,pos_y), is the circle projected within the bounding restrictions?
+      while ((pos_x + pot_radius) <= board_width) {
+        n_circles <- n_circles + 1 # we successfully managed to put a circle at a corner of the box
+        pos_x <- pos_x + (diameter + distance) # move the x-pointer over by a full circle (plus spacing). This positions the next circle to be adjacent to the previous circle perpendicular to the x-axis
+        p_x <- c(p_x, pos_x - (diameter + distance))
+        p_y <- c(p_y, pos_y)
+      }
+      pos_x <- (diameter / 2)
+      pos_y <- pos_y + (diameter + distance) # move the y-pointer over by a full circle, see comment above
     }
-    pos <- list(p_x = p_x, p_y = p_y)
-    return(list(n_circles = n_circles, pos = pos))
+  }
+  pos <- list(p_x = p_x, p_y = p_y)
+  return(list(n_circles = n_circles, pos = pos))
 }

@@ -24,101 +24,143 @@
 #' @name PTR_generateBoardLayouts2
 #' @example man/examples/PTR_generateBoardLayouts2.R
 PTR_generateBoardLayouts2 <- function(pots = NA, board_width = NA, board_height = NA, pot_radius = NA, pot_diameter = NA, pot_rectangle_width = NA, pot_rectangle_height = NA, distance = NA, lbls = FALSE, pot_type = "circle") {
-    if (is.na(pots)) {
-        stop(simpleError("PTR_generateBoardLayouts2: Required Argument 'pots' was not supplied. Must be an integer"))
+  inputs <- list(pots = pots, board_width = board_width, board_height = board_height, pot_radius = pot_radius, pot_diameter = pot_diameter, pot_rectangle_width = pot_rectangle_width, pot_rectangle_height = pot_rectangle_height, distance = distance, lbls = lbls, pot_type = pot_type)
+  validate2(inputs)
+  if (pot_type == "circle") {
+    if (!is.na(pot_radius) && is.na(pot_diameter)) {
+      # Circular pots
+      ret <- get_boards2(board_width, board_height, pot_radius, pot_radius * 2, NA, NA, pots, pot_type)
     }
-    if (is.na(board_width)) {
-        stop(simpleError("PTR_generateBoardLayouts2: Required Argument 'board_width' was not supplied. Must be a numeric"))
+  } else if (pot_type == "square") {
+    if (!is.na(pot_radius) && !is.na(pot_diameter)) {
+      # Square pots
+      ret <- get_boards2(
+        board_width,
+        board_height,
+        pot_radius,
+        pot_diameter,
+        pot_radius,
+        pot_diameter,
+        pots,
+        pot_type
+      )
     }
-    if (is.na(board_height)) {
-        stop(simpleError("PTR_generateBoardLayouts2: Required Argument 'board_height' was not supplied. Must be a numeric"))
+  } else if (pot_type == "rectangle") {
+    if (!is.na(pot_rectangle_width) && !is.na(pot_rectangle_height)) {
+      # Rectangular pots
+      ret <- get_boards2(
+        board_width,
+        board_height,
+        NA,
+        NA,
+        pot_rectangle_width,
+        pot_rectangle_height,
+        pots,
+        pot_type
+      )
     }
-    if (!isFALSE(isFALSE(lbls))) {
-        if (!isFALSE(is.vector(lbls))) {
-            if (!isFALSE(length(lbls)==pots)) {
-                stop(simpleError("PTR_generateBoardLayouts2: Optional Argument 'lbls' must be either ignored, FALSE, or a vector of length 'pots' declaring one label per plot."))
-            }
-        }
+  }
+
+  layouts <- list() ## init holding var
+  pot_counter <- 0 # Initialize pot counter
+
+  for (board_INDEX in seq_along(ret)) {
+    board <- ret[[board_INDEX]]
+    pot_centers <- board$pot_centers
+
+    if (length(pot_centers) == 0) {
+      next # Skip this iteration if pot_centers is empty
     }
 
-    inputs <- list(pots = pots, board_width = board_width, board_height = board_height, pot_radius = pot_radius, pot_diameter = pot_diameter, pot_rectangle_width = pot_rectangle_width, pot_rectangle_height = pot_rectangle_height, distance = distance, lbls = lbls, pot_type = pot_type)
-
-    if (pot_type == "circle") {
-        if (!is.na(pot_radius) && is.na(pot_diameter)) {
-            # Circular pots
-            ret <- get_boards2(board_width, board_height, pot_radius, pot_radius * 2, NA, NA, pots, pot_type)
-        } else {
-            stop(simpleError("Invalid combination of arguments for circular pots. Please provide 'pot_radius' and leave 'pot_diameter' as NA."))
-        }
-    } else if (pot_type == "square") {
-        if (!is.na(pot_radius) && !is.na(pot_diameter)) {
-            # Square pots
-            ret <- get_boards2(board_width, board_height, pot_radius, pot_diameter, pot_radius, pot_diameter, pots, pot_type)
-        } else {
-            stop(simpleError("Invalid combination of arguments for square pots. Please provide both 'pot_radius' and 'pot_diameter'."))
-        }
-    } else if (pot_type == "rectangle") {
-        if (!is.na(pot_rectangle_width) && !is.na(pot_rectangle_height)) {
-            # Rectangular pots
-            ret <- get_boards2(board_width, board_height, NA, NA, pot_rectangle_width, pot_rectangle_height, pots, pot_type)
-        } else {
-            stop(simpleError("Invalid combination of arguments for rectangular pots. Please provide 'pot_rectangle_width' and 'pot_rectangle_height'."))
-        }
+    # Prepare data frame for ggplot2::ggplot
+    if (!isFALSE(is.vector(lbls)) && length(lbls) == pots) {
+      df_points <- data.frame(
+        x = sapply(pot_centers, function(pot) pot$x),
+        y = sapply(pot_centers, function(pot) pot$y),
+        label = lbls[pot_counter + seq_along(pot_centers)]
+      )
     } else {
-        stop(simpleError("Invalid pot type. Must be one of 'circle', 'square', or 'rectangle'."))
+      df_points <- data.frame(
+        # Adjust x to center the label
+        x = sapply(pot_centers, function(pot) pot$x + pot$width / 2),
+        # Adjust y to center the label
+        y = sapply(pot_centers, function(pot) pot$y + pot$height / 2),
+        label = paste0("pot_", pot_counter + seq_along(pot_centers))
+      )
     }
 
-    layouts <- list() ## init holding var
-    pot_counter <- 0  # Initialize pot counter
+    # Increment the pot counter for each pot on the board
+    pot_counter <- pot_counter + length(pot_centers)
 
-    for (board_INDEX in seq_along(ret)) {
-        board <- ret[[board_INDEX]]
-        pot_centers <- board$pot_centers
+    # Create common ggplot2::ggplot object
+    board_plot <- ggplot2::ggplot(
+      df_points,
+      ggplot2::aes(x = x, y = y)
+    ) +
+      # Center the label within each rectangle
+      ggplot2::geom_text(
+        ggplot2::aes(label = label),
+        vjust = 0.5,
+        hjust = 0.5
+      ) +
+      ggplot2::ggtitle(paste("Board", board_INDEX)) +
+      ggplot2::xlim(0, board$width) +
+      ggplot2::ylim(0, board$height) +
+      ggplot2::xlab("[units]") +
+      ggplot2::ylab("[units]") +
+      ggplot2::theme_minimal()
 
-        if (length(pot_centers) == 0) {
-            next  # Skip this iteration if pot_centers is empty
-        }
-
-        # Prepare data frame for ggplot2::ggplot
-        if (!isFALSE(is.vector(lbls)) && length(lbls) == pots) {
-            df_points <- data.frame(
-                x = sapply(pot_centers, function(pot) pot$x),
-                y = sapply(pot_centers, function(pot) pot$y),
-                label = lbls[pot_counter + seq_along(pot_centers)]
-            )
-        } else {
-            df_points <- data.frame(
-                x = sapply(pot_centers, function(pot) pot$x + pot$width / 2),  # Adjust x to center the label
-                y = sapply(pot_centers, function(pot) pot$y + pot$height / 2),  # Adjust y to center the label
-                label = paste0("pot_", pot_counter + seq_along(pot_centers))
-            )
-        }
-
-        # Increment the pot counter for each pot on the board
-        pot_counter <- pot_counter + length(pot_centers)
-
-        # Create common ggplot2::ggplot object
-        board_plot <- ggplot2::ggplot(df_points, ggplot2::aes(x = x, y = y)) +
-            ggplot2::geom_text(ggplot2::aes(label = label), vjust = 0.5, hjust = 0.5) +  # Center the label within each rectangle
-            ggplot2::ggtitle(paste("Board", board_INDEX)) +
-            ggplot2::xlim(0, board$width) +
-            ggplot2::ylim(0, board$height) +
-            ggplot2::xlab("[units]") +
-            ggplot2::ylab("[units]") +
-            ggplot2::theme_minimal()
-
-        # Add appropriate geom based on pot type
-        if (pot_type == "circle") {
-            board_plot <- board_plot + ggforce::geom_circle(ggplot2::aes(x0 = x, y0 = y, r = pot_radius), color = "black", fill = NA)
-        } else if (pot_type == "square") {
-            board_plot <- board_plot + ggplot2::geom_rect(ggplot2::aes(xmin = x - pot_radius, xmax = x + pot_radius, ymin = y - pot_radius, ymax = y + pot_radius), color = "black", fill = NA)
-        } else if (pot_type == "rectangle") {
-            board_plot <- board_plot + ggplot2::geom_rect(ggplot2::aes(xmin = x - pot_rectangle_width / 2, xmax = x + pot_rectangle_width / 2, ymin = y - pot_rectangle_height / 2, ymax = y + pot_rectangle_height / 2), color = "black", fill = NA)
-        }
-        board_plot <- board_plot + ggplot2::geom_rect(ggplot2::aes(xmin = 0, xmax = board$width, ymin = 0, ymax = board$height), color = "red", fill = NA)
-
-        layouts[[paste0("board_", board_INDEX)]] <- list(board_plot = board_plot, points = df_points, input = inputs)
+    # Add appropriate geom based on pot type
+    if (pot_type == "circle") {
+      board_plot <- board_plot + ggforce::geom_circle(
+        ggplot2::aes(
+          x0 = x,
+          y0 = y,
+          r = pot_radius
+        ),
+        color = "black",
+        fill = NA
+      )
+    } else if (pot_type == "square") {
+      board_plot <- board_plot + ggplot2::geom_rect(
+        ggplot2::aes(
+          xmin = x - pot_radius,
+          xmax = x + pot_radius,
+          ymin = y - pot_radius,
+          ymax = y + pot_radius
+        ),
+        color = "black",
+        fill = NA
+      )
+    } else if (pot_type == "rectangle") {
+      board_plot <- board_plot + ggplot2::geom_rect(
+        ggplot2::aes(
+          xmin = x - pot_rectangle_width / 2,
+          xmax = x + pot_rectangle_width / 2,
+          ymin = y - pot_rectangle_height / 2,
+          ymax = y + pot_rectangle_height / 2
+        ),
+        color = "black",
+        fill = NA
+      )
     }
+    board_plot <- board_plot +
+      ggplot2::geom_rect(
+        ggplot2::aes(
+          xmin = 0,
+          xmax = board$width,
+          ymin = 0,
+          ymax = board$height
+        ),
+        color = "red",
+        fill = NA
+      )
 
-    return(layouts)
+    layouts[[paste0("board_", board_INDEX)]] <- list(
+      board_plot = board_plot,
+      points = df_points,
+      input = inputs
+    )
+  }
+  return(layouts)
 }
