@@ -57,14 +57,15 @@ collect_labels <- function(boards) {
 #' layout2 <- PTR_load_dummy_data(2)
 PTR_load_dummy_data <- function(set = 0) {
   explanations <- c(
-    "pots: 40, width: 20, height: 20, pot_radius: 5",
-    "pots: 43, width: 20, height: 20, pot_radius: 5",
-    "pots: 60, width: 30, height: 20, pot_radius: 5",
-    "pots: 32, width: 30, height: 60, pot_radius: 5, lbls: UU/UG/ABAU/ABAG",
-    "pots: 17, width: 30, height: 60, pot_rectangle_width: 12, pot_rectangle_height: 10, pot_type: rectangle",
-    "pots: 64, width: 30, height: 60, pot_radius: 5, pot_type: circle",
-    "pots: 64, width: 30, height: 60, pot_radius: 5, pot_rectangle_width: 10, pot_rectangle_height: 10, pot_type: rectangle",
-    "pots: 32, width: 30, height: 60, pot_radius: 5, lbls: UU/UG/ABAU/ABAG, pot_type: square"
+    "1 pots: 40, width: 20, height: 20, pot_radius: 5",
+    "2 pots: 43, width: 20, height: 20, pot_radius: 5",
+    "3 pots: 60, width: 30, height: 20, pot_radius: 5",
+    "4 pots: 32, width: 30, height: 60, pot_radius: 5, lbls: UU/UG/ABAU/ABAG",
+    "5 pots: 17, width: 30, height: 60, pot_rectangle_width: 12, pot_rectangle_height: 10, pot_type: rectangle",
+    "6 pots: 17, width: 30, height: 60, pot_rectangle_width: 10, pot_rectangle_height: 12, pot_type: rectangle",
+    "7 pots: 64, width: 30, height: 60, pot_radius: 5, pot_type: circle",
+    "8 pots: 64, width: 30, height: 60, pot_radius: 5, pot_rectangle_width: 10, pot_rectangle_height: 10, pot_type: rectangle",
+    "9 pots: 32, width: 30, height: 60, pot_radius: 5, lbls: UU/UG/ABAU/ABAG, pot_type: square"
   )
   if (set != 0) {
     print(explanations[[set]])
@@ -107,10 +108,22 @@ PTR_load_dummy_data <- function(set = 0) {
       pot_rectangle_width = 12,
       pot_rectangle_height = 10,
       distance = 0,
-      lbls = paste0("rectangle_", 1:17),
+      lbls = paste0("rectangle12x10_", 1:17),
       pot_type = "rectangle"
     ))
   } else if (set == 6) {
+    # flipped Example usage for rectangular pots
+    return(PTR_generateBoardLayouts2(
+      pots = 17,
+      board_width = 30,
+      board_height = 60,
+      pot_rectangle_width = 10,
+      pot_rectangle_height = 12,
+      distance = 0,
+      lbls = paste0("rectangle10x12_", 1:17),
+      pot_type = "rectangle"
+    ))
+  } else if (set == 7) {
     # Example usage for rectangular pots
     return(PTR_generateBoardLayouts2(
       pots = 64,
@@ -121,7 +134,7 @@ PTR_load_dummy_data <- function(set = 0) {
       lbls = paste0("circle_", 1:64),
       pot_type = "circle"
     ))
-  } else if (set == 7) {
+  } else if (set == 8) {
     # Example usage for square pots
     return(PTR_generateBoardLayouts2(
       pots = 64,
@@ -135,7 +148,7 @@ PTR_load_dummy_data <- function(set = 0) {
       lbls = paste0("square_", 1:64),
       pot_type = "square"
     ))
-  } else if (set == 8) {
+  } else if (set == 9) {
     # Example usage for declaring custom labels.
     #
     N <- 8
