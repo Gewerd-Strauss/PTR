@@ -13,8 +13,9 @@ PTR_generateBoardLayouts2(
   pot_rectangle_width = NA,
   pot_rectangle_height = NA,
   distance = NA,
+  pot_type = "circle",
   lbls = FALSE,
-  pot_type = "circle"
+  rectangle_enforce_given_orientation = FALSE
 )
 }
 \arguments{
@@ -36,11 +37,17 @@ A board is defined as one of the 2 single elements used}
 
 \item{distance}{The spacing distance between two pots}
 
+\item{pot_type}{one of `c("circle","square","rectangle")`.}
+
 \item{lbls}{A vector of length 'pos' consisting of custom names for each pot
 Will be assigned in from bottom-left to top-right, from the first to the last
 board.}
 
-\item{pot_type}{one of `c("circle","square","rectangle")`.}
+\item{rectangle_enforce_given_orientation}{By default, the pot-fitting algorithm for
+rectangular pots will try and fit as many pots onto a single board by testing
+checking the result for the given pot_width/pot_height, and after flipping
+the values for them, determining if flipping the pots by 90° will allow more
+pots be fitted onto a single board.}
 }
 \value{
 layouts - list of layouts-objects, each containing a board-plot.
