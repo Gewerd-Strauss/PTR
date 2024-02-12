@@ -150,14 +150,28 @@ rectangle_pots_not_flipped$board_1$board_plot
 
 ## Rotating Boards
 
-Boards can be rotated via the function `PTR::PTR_rotateBoards2()`. 
+Boards can be rotated via the function `PTR::PTR_rotateBoards2()`:
+
 ```{r rotate_board_forwards, echo = T, results = 'hide', message=FALSE}
-circle_pots_rotated <- PTR::PTR_rotateBoards2(circle_pots)
+circle_pots_rotated <- PTR::PTR_rotateBoards2(circle_pots,-1)
 ```
-```{r circle_plot_rotated_forwards, echo = FALSE, warning = FALSE,fig.cap="The first board now contains the pots of the previously-last board of 'circle_pots'. Similarly, 'circle_pots_rotated$board_2' now contains the previouly-first board of ' circle_pots'."}
+```{r circle_plot_rotated_forwards, echo = FALSE, warning = FALSE,fig.cap="The first board now contains the pots of the previously-last board of 'circle_pots'."}
 circle_pots_rotated$board_1$board_plot
+```
+```{r circle_plot_rotated_forwards2, echo = FALSE, warning = FALSE,fig.cap="The second board now contains the pots of the previously-first board of 'circle_pots'."}
+circle_pots_rotated$board_2$board_plot
 ```
 
 ## Rotating Pots
 
-Pots can be rotated within a board. 
+```{r pot_rotation, echo = T, results = 'hide', message=FALSE}
+circle_pots_pots_rotated <- PTR::PTR_rotatePots(circle_pots,shifts = 2)
+```
+
+Pots can be rotated within a board by using `PTR::PTR_rotatePots()`:
+
+```{r pot_rotation_plot, echo = FALSE, warning = FALSE, fig.cap="Pots are rotated left to right, bottom to top on a per-board-basis"}
+circle_pots_pots_rotated$board_1$board_plot
+```
+
+Note that a circular shift is not possible on a general board for `N` pots.
