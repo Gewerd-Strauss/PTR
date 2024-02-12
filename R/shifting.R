@@ -14,6 +14,9 @@ shifter <- function(x, n = 1) {
   if (!is.vector(x)) {
     stop(simpleError(str_c("'x' must be a vector")))
   }
+  if (length(x)<n) { # only rotate the steps we have space for in the vector.
+      n <- n - length(x)
+  }
   if (!(n %% 1 == 0)) {
     stop(simpleError(str_c("'n' must be an integer")))
   } else if (n == 0) {
@@ -121,7 +124,7 @@ PTR_rotateBoards2 <- function(boards, shifts = -1) {
   } else if (abs(shifts) > length(boards)) {
     swarning <- simpleWarning(
       str_c(
-        "rotateBoards(): ",
+        "rotateBoards2(): ",
         "You are trying to shift each board by more than a full rotation (",
         length(boards), " boards total). Consider shifting by only (",
         shifts - length(boards),
@@ -152,7 +155,7 @@ PTR_rotateBoards2 <- function(boards, shifts = -1) {
 #' while negative integers shift left-to-right,bottom-to-top
 #'
 #' @return boards with shifted pots. The boards themselves remain at their location.
-#' @keywords internal
+#' @export
 #'
 #' @examples
 #' \dontrun{
@@ -164,38 +167,54 @@ PTR_rotatePots <- function(boards, shifts = 2) {
   # This is done by iterating over the currently assigned labels embedded
   # into a boards-object, and rotating the elements of its `lbls` by `shifts`
   ret <- list()
-
   # Print the sorted vector
   new_labels <- c()
   for (board in boards) {
-    lbls_rotated <- shifter(board$input$lbls[1:seq_len(dim(board$points)[[1]])], shifts)
-    if (length(board$input$lbls) > length(lbls_rotated)) {
+    # lbls_rotated <- shifter(board$input$lbls[1:max(seq_len(dim(board$points)[[1]]))], shifts)
+    lbls_rotated <- shifter(board$points$Label_, shifts)
+    if (length(board$points$Label_) > length(lbls_rotated)) {
       ## we rotated a label-set of a board that was not fully filled.
       ## Insert a dummy-pot so that the next set of labels doesn't frame-
       ## shift to the left by `diff`
       lbls_rotated <- append(
-          lbls_rotated
-          , "PTR_DUMMY"
-          , length(board$input$lbls) - length(lbls_rotated)
-          )
+        lbls_rotated,
+        "PTR_DUMMY",
+        length(board$input$lbls) - length(lbls_rotated)
+      )
       lbls_rotated <- c(
-          lbls_rotated
-          , rep("PTR_DUMMY", length(board$input$lbls) - length(lbls_rotated))
-          )
+        lbls_rotated,
+        rep("PTR_DUMMY", length(board$input$lbls) - length(lbls_rotated))
+      )
     }
     new_labels <- append(new_labels, lbls_rotated)
   }
-  print(new_labels)
-  input <- boards$board_01$input
+  input <- boards$board_1$input
   input$lbls <- new_labels
-  ret <- PTR_generateBoardLayouts(
-    pots = input$pots,
-    board_width = input$board_width,
-    board_height = input$board_height,
-    pot_radius = input$pot_radius,
-    distance = input$distance,
-    lbls = input$lbls
-  )
+  #input$lbls <- new_labels
+  if (boards$board_1$version == 1) { ## regenerate with the appropriate function
+      ret <- PTR_generateBoardLayouts(
+        pots = input$pots,
+        board_width = input$board_width,
+        board_height = input$board_height,
+        pot_radius = input$pot_radius,
+        distance = input$distance,
+        lbls = input$lbls
+      )
+  } else {
+      ret <- PTR_generateBoardLayouts2(
+          pots = input$pots,
+          board_width = input$board_width,
+          board_height = input$board_height,
+          pot_radius = input$pot_radius,
+          pot_diameter = input$pot_diameter,
+          pot_rectangle_width = input$pot_rectangle_width,
+          pot_rectangle_height = input$pot_rectangle_height,
+          distance = input$distance,
+          pot_type = input$pot_type,
+          lbls = input$lbls,
+          rectangle_enforce_given_orientation = input$rectangle_enforce_given_orientation
+      )
+  }
 
   return(ret)
 }
