@@ -15,7 +15,7 @@ shifter <- function(x, n = 1) {
     stop(simpleError(str_c("'x' must be a vector")))
   }
   if (length(x)<n) { # only rotate the steps we have space for in the vector.
-      n <- n - length(x)
+      n <- n %% length(x)
   }
   if (!(n %% 1 == 0)) {
     stop(simpleError(str_c("'n' must be an integer")))
@@ -188,10 +188,10 @@ PTR_rotatePots <- function(boards, shifts = 2) {
     }
     new_labels <- append(new_labels, lbls_rotated)
   }
-  input <- boards$board_1$input
+  input <- boards[[1]]$input
   input$lbls <- new_labels
   #input$lbls <- new_labels
-  if (boards$board_1$version == 1) { ## regenerate with the appropriate function
+  if (boards[[1]]$version == 1) { ## regenerate with the appropriate function
       ret <- PTR_generateBoardLayouts(
         pots = input$pots,
         board_width = input$board_width,
@@ -282,9 +282,9 @@ PTR_sortPots_by_potindex <- function(boards, shifts = -1) {
       )
     )
   )
-  input <- boards$board_1$input
+  input <- boards[[1]]$input
   input$lbls <- unique(new_labels)
-  if (hasName(boards$board_1$input, "pot_type")) {
+  if (hasName(boards[[1]]$input, "pot_type")) {
     ret <- PTR_generateBoardLayouts2(
       pots = input$pots,
       board_width = input$board_width,

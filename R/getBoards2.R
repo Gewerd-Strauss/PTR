@@ -4,7 +4,7 @@
 #' @return a 'board'-object containing
 #' @keywords internal
 #
-get_boards2 <- function(board_width, board_height, pot_radius, pot_diameter, pot_rectangle_width, pot_rectangle_height, pots, pot_type) {
+get_boards2 <- function(board_width, board_height, pot_radius, pot_diameter, pot_rectangle_width, pot_rectangle_height, pots, pot_type, rectangle_enforce_given_orientation = FALSE) {
   boards <- list()
   pots_placed_total <- 0 # Initialize total pots placed across all boards
   total_pots_available <- pots
@@ -47,7 +47,7 @@ get_boards2 <- function(board_width, board_height, pot_radius, pot_diameter, pot
             board$pot_count <- board$pot_count + 1
             board$pot_centers[[board$pot_count]] <- list(x = x + pot_rectangle_width / 2, y = y, width = pot_rectangle_width / 2, height = pot_rectangle_height / 2)
           } else {
-            # print("Reached maximum height of the board")
+              message("i Reached maximum height of the board")
             break
           }
         }
@@ -77,7 +77,7 @@ get_boards2 <- function(board_width, board_height, pot_radius, pot_diameter, pot
             board$pot_count <- board$pot_count + 1
             board$pot_centers[[board$pot_count]] <- list(x = x, y = y, pot_radius = pot_radius, diameter = pot_diameter)
           } else {
-            # print("Reached maximum height of the board")
+            message("i Reached maximum height of the board")
             break
           }
         }
@@ -85,95 +85,110 @@ get_boards2 <- function(board_width, board_height, pot_radius, pot_diameter, pot
     }
     return(board)
   }
-  if (pot_type=="rectangle") {
-        # 1. iterate once,
-        board_for_normal_pot_dimensions <- add_board(board_width,
-                                                     board_height,
-                                                     pot_radius,
-                                                     pot_diameter,
-                                                     pot_rectangle_width,
-                                                     pot_rectangle_height
-                                                     )
-        board_for_flipped_pot_dimensions <- add_board(board_width,
-                                                      board_height,
-                                                      pot_radius,
-                                                      pot_diameter,
-                                                      pot_rectangle_height,
-                                                      pot_rectangle_width
-                                                      )
-        pots_placed_total_1 <- pots_placed_total_2 <- 0
-        board_for_normal_pot_dimensions <- add_pot_rect(
-            board_for_normal_pot_dimensions,
-            pot_rectangle_width,
-            pot_rectangle_height,
-            pots_placed_total_1,
-            pots
-            )
-        board_for_flipped_pot_dimensions <- add_pot_rect(
-            board_for_flipped_pot_dimensions,
-            pot_rectangle_height,
-            pot_rectangle_width,
-            pots_placed_total_1,
-            pots
-            )
+  if (pot_type == "rectangle") {
+    # 1. iterate once,
+    board_for_normal_pot_dimensions <- add_board(
+      board_width,
+      board_height,
+      pot_radius,
+      pot_diameter,
+      pot_rectangle_width,
+      pot_rectangle_height
+    )
+    board_for_flipped_pot_dimensions <- add_board(
+      board_width,
+      board_height,
+      pot_radius,
+      pot_diameter,
+      pot_rectangle_height,
+      pot_rectangle_width
+    )
+    pots_placed_total_1 <- pots_placed_total_2 <- 0
+    board_for_normal_pot_dimensions <- add_pot_rect(
+      board_for_normal_pot_dimensions,
+      pot_rectangle_width,
+      pot_rectangle_height,
+      pots_placed_total_1,
+      pots
+    )
+    board_for_flipped_pot_dimensions <- add_pot_rect(
+      board_for_flipped_pot_dimensions,
+      pot_rectangle_height,
+      pot_rectangle_width,
+      pots_placed_total_1,
+      pots
+    )
   }
 
   while (pots_placed_total < pots) { # Check the total number of pots placed across all boards
     if (pot_type %in% c("circle", "square")) {
-      board <- add_board(board_width,
-                         board_height,
-                         pot_radius,
-                         pot_diameter,
-                         pot_rectangle_width,
-                         pot_rectangle_height
-                         )
-      board <- add_pot(board,
-                       pot_radius,
-                       pot_diameter,
-                       pots_placed_total,
-                       pots
-                       )
+      board <- add_board(
+        board_width,
+        board_height,
+        pot_radius,
+        pot_diameter,
+        pot_rectangle_width,
+        pot_rectangle_height
+      )
+      board <- add_pot(
+        board,
+        pot_radius,
+        pot_diameter,
+        pots_placed_total,
+        pots
+      )
     } else if (pot_type == "rectangle") {
-        # determine which pot-orientation yields most number of pots per board.
-        if (board_for_normal_pot_dimensions$pot_count>board_for_flipped_pot_dimensions$pot_count) {
-          #board <- add_pot_rect(board, pot_rectangle_width, pot_rectangle_height, pots_placed_total, pots)
-          # Maximisation works by
-          # - flipping board_width<>board_height in add_board & keeping original
-          # - does not work when I flip pot dimensions though - BUG: Why?
-          board <- add_board(board_width,
-                             board_height,
-                             pot_radius,
-                             pot_diameter,
-                             pot_rectangle_width,
-                             pot_rectangle_height
-                             )
-        } else {
-          board <- add_board(board_width,
-                             board_height,
-                             pot_radius,
-                             pot_diameter,
-                             pot_rectangle_height,
-                             pot_rectangle_width
-                             )
-          #board <- add_pot_rect(board, pot_rectangle_height, pot_rectangle_width, pots_placed_total, pots)
-        }
-        # 2. get the number of pots placed,
-        # 3. swap pot dimensions,
-        # 4. compare to determine most lucrative orientation
-        # 5. rerun the entire while-loop for this orientation
-          board <- add_pot_rect(board,
-                                pot_rectangle_width,
-                                pot_rectangle_height,
-                                pots_placed_total,
-                                pots
-                                )
-          #board <- add_pot_rect(board, pot_rectangle_height, pot_rectangle_width, pots_placed_total, pots)
-          # just swapping pot dimensions does nt seem to work? Why? Can we just
-          # swap the boad dimensions instead? That would be done with this kind
-          # of logic, but for addboard instead
-          # write a call in PTR_loaddummydate that simulates for now - what does
-          # the algo do if we have x>y?
-         # board <- add_pot_rect(board, pot_rectangle_height, pot_rectangle_width, pots_placed_total, pots)
+      # determine which pot-orientation yields most number of pots per board.
+      if ((board_for_normal_pot_dimensions$pot_count > board_for_flipped_pot_dimensions$pot_count) || isTRUE( rectangle_enforce_given_orientation)) {
+        # board <- add_pot_rect(board, pot_rectangle_width, pot_rectangle_height, pots_placed_total, pots)
+        # Maximisation works by
+        # - flipping board_width<>board_height in add_board & keeping original
+        # - does not work when I flip pot dimensions though - BUG: Why?
+        board <- add_board(
+          board_width = board_width,
+          board_height = board_height,
+          pot_radius = pot_radius,
+          pot_diameter = pot_diameter,
+          pot_rectangle_width = pot_rectangle_width,
+          pot_rectangle_height = pot_rectangle_height
+        )
+        board <- add_pot_rect(
+          board = board,
+          pot_rectangle_width = pot_rectangle_width,
+          pot_rectangle_height = pot_rectangle_height,
+          total_pots_placed = pots_placed_total,
+          total_pots_available = pots
+        )
+      } else {
+        message(
+          paste0(
+            "i Flipping pot orientation to fit ",
+            board_for_flipped_pot_dimensions$pot_count,
+            " instead of ",
+            board_for_normal_pot_dimensions$pot_count,
+            " pots per board."
+          )
+        )
+        board <- add_board(
+          board_width = board_width,
+          board_height = board_height,
+          pot_radius = pot_radius,
+          pot_diameter = pot_diameter,
+          pot_rectangle_width = pot_rectangle_height,
+          pot_rectangle_height = pot_rectangle_width
+        )
+        board <- add_pot_rect(
+          board = board,
+          pot_rectangle_width = pot_rectangle_height,
+          pot_rectangle_height = pot_rectangle_width,
+          total_pots_placed = pots_placed_total,
+          total_pots_available = pots
+        )
+      }
+      # 2. get the number of pots placed,
+      # 3. swap pot dimensions _AND_ board_dimensions,
+      # 4. compare to determine most lucrative orientation
+      # 5. rerun the entire while-loop for this orientation
     } else {
       stop(simpleError("Invalid pot type. Must be one of 'circle', 'square', or 'rectangle'."))
     }
