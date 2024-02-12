@@ -170,7 +170,7 @@ PTR_generateBoardLayouts <- function(pots = NA, board_width = NA, board_height =
         limits = limits_y
       ) +
       ggplot2::ggtitle(
-        label = paste("Board ", board_INDEX)
+        label = paste0("board_", board_INDEX)
       ) +
       ggplot2::theme_minimal()
     rownames(df_points) <- df_points$Label_

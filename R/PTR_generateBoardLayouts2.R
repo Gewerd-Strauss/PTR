@@ -122,7 +122,7 @@ PTR_generateBoardLayouts2 <- function(pots = NA, board_width = NA, board_height 
         vjust = 0.5,
         hjust = 0.5
       ) +
-      ggplot2::ggtitle(paste("Board", board_INDEX)) +
+      ggplot2::ggtitle(paste0("board_", board_INDEX)) +
       ggplot2::xlim(0, board$width) +
       ggplot2::ylim(0, board$height) +
       ggplot2::xlab("[units]") +
