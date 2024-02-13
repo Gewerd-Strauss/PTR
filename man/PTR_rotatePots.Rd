@@ -24,4 +24,3 @@ consecutive_groups <- PTR_load_dummy_data(4) # load example dummy data for the `
 newBoards <- PTR_rotatePots(oldBoards, -2)
 }
 }
-\keyword{internal}

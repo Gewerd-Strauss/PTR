@@ -3,6 +3,7 @@ output: github_document
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN. -->
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -13,42 +14,169 @@ knitr::opts_chunk$set(
 )
 ```
 
-# PotTrayRequirements
+# PTR
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of PotTrayRequirements is to ...
+This package includes all functions required for a simplistic determination of the required board-space for a given number of pots. 
+This is by no means exhaustive, and by no means the best algorithm for this kind of packing-problem.
 
 ## Installation
 
-You can install the development version of PotTrayRequirements like so:
+You can install the development and release versions of PTR like so:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+# release
+devtools::install_github("https://github.com/Gewerd-Strauss/PTR@master")
+# development
+devtools::install_github("https://github.com/Gewerd-Strauss/PTR@dev")
 ```
 
-## Example
+# Documentation
 
-This is a basic example which shows you how to solve a common problem:
+A Tray-Layout can be defined given the required number of pots, their dimensions, as well as the dimensions of a board.
 
-```{r example}
-library(PotTrayRequirements)
-## basic example code
+## Structure of a shelf
+
+The functions in this package _technically_ work on an abstract board of any dimension. 
+However, it is designed for the assumption that a `board` constitutes the area marked in green (denoted by `(3)`).
+Obviously, you can just decide that a `(2)` is a board, or even `(1)`. Up to you.
+
+```{r shelf_overview, echo=FALSE, fig.alt="An empty shelf. An entire level is marked as a '1', a side as '2' and a board as '3'."}
+knitr::include_graphics("man/figures/shelf_overview_complete.png",rel_path = T)
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+## Defining boards for circular & square pots
 
-```{r cars}
-summary(cars)
+```{r fdef_circle_square, echo = T, results='hide',message=FALSE}
+library(PTR)
+## Circular pots
+circle_pots <- PTR_generateBoardLayouts2(
+  pots = 64,
+  board_width = 30,
+  board_height = 60,
+  pot_radius = 5,
+  distance = 0,
+  lbls = paste0("circle_", 1:64),
+  pot_type = "circle"
+);
+## Square pots
+square_pots <- PTR_generateBoardLayouts2(
+  pots = 64,
+  board_width = 30,
+  board_height = 60,
+  pot_radius = 5,
+  pot_diameter = 5,
+  distance = 0,
+  lbls = paste0("square_", 1:64),
+  pot_type = "square"
+)
+```
+The results of `PTR_generateBoardLayouts2()` has the principal structure
+
+```{r struct_output,eval=F}
+ret
+  $board_{n}
+           $points      ## a list denoting the x/y-coordinates of the center point of a pot-graphic
+           $board_plot  ## the plot which is the main result of the function
+           $input       ## a list denoting the input data
+           $version     ## an internal versioning number to be used in various function processing
+```
+## Defining boards for rectangular pots
+
+Rectangular pots are defined similarly. However, they require additional arguments: 
+
+```{r fdef_rect, echo = T, results='hide',message=FALSE}
+## Rectangular Pots
+rectangle_pots <- PTR_generateBoardLayouts2(
+  pots = 17,
+  board_width = 30,
+  board_height = 60,
+  pot_radius = NA,
+  pot_diameter = NA,
+  pot_rectangle_width = 10,
+  pot_rectangle_height = 12,
+  distance = 0,
+  lbls = paste0("rectangle10x12_", 1:17),
+  pot_type = "rectangle"
+)
+## Flipping the pot-dimensions 
+rectangle_pots_flipped <- PTR_generateBoardLayouts2(
+  pots = 17,
+  board_width = 30,
+  board_height = 60,
+  pot_radius = NA,
+  pot_diameter = NA,
+  pot_rectangle_width = 12,
+  pot_rectangle_height = 10,
+  distance = 0,
+  lbls = paste0("rectangle12x10_", 1:17),
+  pot_type = "rectangle"
+)
+rectangle_pots_not_flipped <- PTR_generateBoardLayouts2(
+  pots = 17,
+  board_width = 30,
+  board_height = 60,
+  pot_radius = NA,
+  pot_diameter = NA,
+  pot_rectangle_width = 12,
+  pot_rectangle_height = 10,
+  distance = 0,
+  lbls = paste0("rectangle12x10_", 1:17),
+  pot_type = "rectangle",
+  rectangle_enforce_given_orientation = TRUE
+)
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
+## Example Boards
 
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
+The following figures showcase the first board for the example-codes above:
+```{r circle_plot, echo = FALSE, warning = FALSE,fig.cap="The first board for the circle-example above. Note that the x-&y-axis are not equally scaled."}
+circle_pots$board_1$board_plot
+```
+```{r square_plot, echo = FALSE, warning = FALSE,fig.cap="The first board for the square-example above. Note that the x-&y-axis are not equally scaled."}
+square_pots$board_1$board_plot
+```
+```{r rectangle_plot, echo = FALSE, warning = FALSE,fig.cap="The first board for the rectangle-example above."}
+rectangle_pots$board_1$board_plot
+```
+```{r rectangle_flipped_plot, echo = FALSE, warning = FALSE,fig.cap="The first board for the second rectangle-example above, where the pot-dimensions are flipped relative to the first one."}
+rectangle_pots_flipped$board_1$board_plot
+```
+```{r rectangle_enforced_plot, echo = FALSE, warning = FALSE,fig.cap="The first board for the second rectangle-example above, while enforcing the dimensions of 'board_width' & 'pot_width' to be locked to each other via setting 'rectangle_enforce_given_orientation=TRUE'. This option is intended to be used when rectangle-post _must_ be placed in a specific orientation, even if it doesn't fit the most pots onto a board. Notice that less pots could be fit onto the first board compared to the previous figures."}
+rectangle_pots_not_flipped$board_1$board_plot
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+## Rotating Boards
+
+Boards can be rotated via the function `PTR::PTR_rotateBoards2()`:
+
+```{r rotate_board_forwards, echo = T, results = 'hide', message=FALSE}
+circle_pots_rotated <- PTR::PTR_rotateBoards2(circle_pots,-1)
+```
+```{r circle_plot_rotated_forwards, echo = FALSE, warning = FALSE,fig.cap="The first board now contains the pots of the previously-last board of 'circle_pots'."}
+circle_pots_rotated$board_1$board_plot
+```
+```{r circle_plot_rotated_forwards2, echo = FALSE, warning = FALSE,fig.cap="The second board now contains the pots of the previously-first board of 'circle_pots'."}
+circle_pots_rotated$board_2$board_plot
+```
+
+## Rotating Pots
+
+```{r pot_rotation, echo = T, results = 'hide', message=FALSE}
+circle_pots_pots_rotated <- PTR::PTR_rotatePots(circle_pots,shifts = 2)
+```
+
+Pots can be rotated within a board by using `PTR::PTR_rotatePots()`:
+
+```{r pot_rotation_plot, echo = FALSE, warning = FALSE, fig.cap="Pots are rotated left to right, bottom to top on a per-board-basis"}
+circle_pots_pots_rotated$board_1$board_plot
+```
+```{r pot_rotation_plot2, echo = FALSE, warning = FALSE, fig.cap="Pots are rotated left to right, bottom to top on a per-board-basis"}
+circle_pots_pots_rotated$board_4$board_plot
+```
+
+Note that a circular shift is not possible on a general board for `N` pots, and therefore
+currently an index-based shift is used
+.
