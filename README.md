@@ -226,5 +226,14 @@ Pots are rotated left to right, bottom to top on a per-board-basis
 
 </div>
 
+<div class="figure">
+
+<img src="man/figures/README-pot_rotation_plot2-1.png" alt="Pots are rotated left to right, bottom to top on a per-board-basis" width="100%" />
+<p class="caption">
+Pots are rotated left to right, bottom to top on a per-board-basis
+</p>
+
+</div>
+
 Note that a circular shift is not possible on a general board for `N`
-pots.
+pots, and therefore currently an index-based shift is used .

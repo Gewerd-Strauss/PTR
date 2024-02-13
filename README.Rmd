@@ -173,5 +173,10 @@ Pots can be rotated within a board by using `PTR::PTR_rotatePots()`:
 ```{r pot_rotation_plot, echo = FALSE, warning = FALSE, fig.cap="Pots are rotated left to right, bottom to top on a per-board-basis"}
 circle_pots_pots_rotated$board_1$board_plot
 ```
+```{r pot_rotation_plot2, echo = FALSE, warning = FALSE, fig.cap="Pots are rotated left to right, bottom to top on a per-board-basis"}
+circle_pots_pots_rotated$board_4$board_plot
+```
 
-Note that a circular shift is not possible on a general board for `N` pots.
+Note that a circular shift is not possible on a general board for `N` pots, and therefore
+currently an index-based shift is used
+.
