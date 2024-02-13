@@ -170,7 +170,7 @@ PTR_generateBoardLayouts <- function(pots = NA, board_width = NA, board_height =
         limits = limits_y
       ) +
       ggplot2::ggtitle(
-        label = paste("Board ", board_INDEX)
+        label = paste0("board_", board_INDEX)
       ) +
       ggplot2::theme_minimal()
     rownames(df_points) <- df_points$Label_
@@ -178,7 +178,8 @@ PTR_generateBoardLayouts <- function(pots = NA, board_width = NA, board_height =
     packaged_output <- list(
       board_plot = board_plot,
       points = as.data.frame(df_points),
-      input = inputs
+      input = inputs,
+      version = 1
     ) ## we package the mapping so we have easier access to it later on if we want to randomise shuffling in a controlled manner.
     layouts[[paste0("board_", pad_to_length(board_INDEX, str_length(boards_required)))]] <- packaged_output
     if (isFALSE(as.logical(lbls))) {

@@ -18,13 +18,29 @@
 #' Will be assigned in from bottom-left to top-right, from the first to the last
 #' board.
 #' @param pot_type one of `c("circle","square","rectangle")`.
+#' @param rectangle_enforce_given_orientation By default, the pot-fitting algorithm for
+#' rectangular pots will try and fit as many pots onto a single board by testing
+#' checking the result for the given pot_width/pot_height, and after flipping
+#' the values for them, determining if flipping the pots by 90° will allow more
+#' pots be fitted onto a single board.
 #' @return layouts - list of layouts-objects, each containing a board-plot.
 #'
 #' @export
 #' @name PTR_generateBoardLayouts2
 #' @example man/examples/PTR_generateBoardLayouts2.R
-PTR_generateBoardLayouts2 <- function(pots = NA, board_width = NA, board_height = NA, pot_radius = NA, pot_diameter = NA, pot_rectangle_width = NA, pot_rectangle_height = NA, distance = NA, lbls = FALSE, pot_type = "circle") {
-  inputs <- list(pots = pots, board_width = board_width, board_height = board_height, pot_radius = pot_radius, pot_diameter = pot_diameter, pot_rectangle_width = pot_rectangle_width, pot_rectangle_height = pot_rectangle_height, distance = distance, lbls = lbls, pot_type = pot_type)
+PTR_generateBoardLayouts2 <- function(pots = NA, board_width = NA, board_height = NA, pot_radius = NA, pot_diameter = NA, pot_rectangle_width = NA, pot_rectangle_height = NA, distance = NA, pot_type = "circle", lbls = FALSE, rectangle_enforce_given_orientation = FALSE) {
+  inputs <- list(pots = pots,
+                 board_width = board_width,
+                 board_height = board_height,
+                 pot_radius = pot_radius,
+                 pot_diameter = pot_diameter,
+                 pot_rectangle_width = pot_rectangle_width,
+                 pot_rectangle_height = pot_rectangle_height,
+                 distance = distance,
+                 lbls = lbls,
+                 pot_type = pot_type,
+                 rectangle_enforce_given_orientation =  rectangle_enforce_given_orientation
+                 )
   validate2(inputs)
   if (pot_type == "circle") {
     if (!is.na(pot_radius) && is.na(pot_diameter)) {
@@ -56,8 +72,11 @@ PTR_generateBoardLayouts2 <- function(pots = NA, board_width = NA, board_height 
         pot_rectangle_width,
         pot_rectangle_height,
         pots,
-        pot_type
+        pot_type,
+        rectangle_enforce_given_orientation
       )
+      pot_rectangle_width <- ret[[1]]$pot_rectangle_width
+      pot_rectangle_height <- ret[[1]]$pot_rectangle_height
     }
   }
 
@@ -77,7 +96,7 @@ PTR_generateBoardLayouts2 <- function(pots = NA, board_width = NA, board_height 
       df_points <- data.frame(
         x = sapply(pot_centers, function(pot) pot$x),
         y = sapply(pot_centers, function(pot) pot$y),
-        label = lbls[pot_counter + seq_along(pot_centers)]
+        Label_ = lbls[pot_counter + seq_along(pot_centers)]
       )
     } else {
       df_points <- data.frame(
@@ -85,7 +104,7 @@ PTR_generateBoardLayouts2 <- function(pots = NA, board_width = NA, board_height 
         x = sapply(pot_centers, function(pot) pot$x + pot$width / 2),
         # Adjust y to center the label
         y = sapply(pot_centers, function(pot) pot$y + pot$height / 2),
-        label = paste0("pot_", pot_counter + seq_along(pot_centers))
+        Label_ = paste0("pot_", pot_counter + seq_along(pot_centers))
       )
     }
 
@@ -99,11 +118,11 @@ PTR_generateBoardLayouts2 <- function(pots = NA, board_width = NA, board_height 
     ) +
       # Center the label within each rectangle
       ggplot2::geom_text(
-        ggplot2::aes(label = label),
+        ggplot2::aes(label = Label_),
         vjust = 0.5,
         hjust = 0.5
       ) +
-      ggplot2::ggtitle(paste("Board", board_INDEX)) +
+      ggplot2::ggtitle(paste0("board_", board_INDEX)) +
       ggplot2::xlim(0, board$width) +
       ggplot2::ylim(0, board$height) +
       ggplot2::xlab("[units]") +
@@ -159,7 +178,8 @@ PTR_generateBoardLayouts2 <- function(pots = NA, board_width = NA, board_height 
     layouts[[paste0("board_", board_INDEX)]] <- list(
       board_plot = board_plot,
       points = df_points,
-      input = inputs
+      input = inputs,
+      version = 2
     )
   }
   return(layouts)

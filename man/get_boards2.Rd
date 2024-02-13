@@ -12,7 +12,8 @@ get_boards2(
   pot_rectangle_width,
   pot_rectangle_height,
   pots,
-  pot_type
+  pot_type,
+  rectangle_enforce_given_orientation = FALSE
 )
 }
 \arguments{
@@ -33,6 +34,12 @@ A board is defined as one of the 2 single elements used}
 \item{pots}{The number of pots you must place.}
 
 \item{pot_type}{one of `c("circle","square","rectangle")`.}
+
+\item{rectangle_enforce_given_orientation}{By default, the pot-fitting algorithm for
+rectangular pots will try and fit as many pots onto a single board by testing
+checking the result for the given pot_width/pot_height, and after flipping
+the values for them, determining if flipping the pots by 90° will allow more
+pots be fitted onto a single board.}
 }
 \value{
 a 'board'-object containing
