@@ -211,11 +211,11 @@ The second board now contains the pots of the previously-first board of
 
 ## Rotating Pots
 
+Pots can be rotated within a board by using `PTR::PTR_rotatePots()`:
+
 ``` r
 circle_pots_pots_rotated <- PTR::PTR_rotatePots(circle_pots,shifts = 2)
 ```
-
-Pots can be rotated within a board by using `PTR::PTR_rotatePots()`:
 
 <div class="figure">
 
@@ -228,12 +228,38 @@ Pots are rotated left to right, bottom to top on a per-board-basis
 
 <div class="figure">
 
-<img src="man/figures/README-pot_rotation_plot2-1.png" alt="Pots are rotated left to right, bottom to top on a per-board-basis" width="100%" />
+<img src="man/figures/README-pot_rotation_plot2-1.png" alt="Incomplete Trays behave as complete trays when rotating pots." width="100%" />
 <p class="caption">
-Pots are rotated left to right, bottom to top on a per-board-basis
+Incomplete Trays behave as complete trays when rotating pots.
 </p>
 
 </div>
 
 Note that a circular shift is not possible on a general board for `N`
-pots, and therefore currently an index-based shift is used .
+pots, and therefore currently an index-based shift is used.
+
+## Sorting Pots by Replicate-Number
+
+Using `PTR::PTR_sortPots_by_potindex()`, you can sort pots by replicate
+number. This requires two things:
+
+- manually labelled pots
+- Labels complying to the principal format `{GroupName}_{ReplicateID}`
+
+<div class="figure">
+
+<img src="man/figures/README-pot_randomisation_pre-1.png" alt="Pots with names assigned in sequential order" width="100%" />
+<p class="caption">
+Pots with names assigned in sequential order
+</p>
+
+</div>
+
+<div class="figure">
+
+<img src="man/figures/README-pot_randomisation_post-1.png" alt="Pots ordered by replicate-index" width="100%" />
+<p class="caption">
+Pots ordered by replicate-index
+</p>
+
+</div>
