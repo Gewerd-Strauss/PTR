@@ -129,38 +129,38 @@ above:
 
 <div class="figure">
 
-<img src="man/figures/README-circle_plot-1.png" alt="The first board for the circle-example above. Note that the x-&amp;y-axis are not equally scaled." width="100%" />
+<img src="man/figures/README-circle_plot-1.png" alt="Fig.1: The first board for the circle-example above. Note that the x-&amp;y-axis are not equally scaled." width="100%" />
 <p class="caption">
-The first board for the circle-example above. Note that the x-&y-axis
-are not equally scaled.
+Fig.1: The first board for the circle-example above. Note that the
+x-&y-axis are not equally scaled.
 </p>
 
 </div>
 
 <div class="figure">
 
-<img src="man/figures/README-square_plot-1.png" alt="The first board for the square-example above. Note that the x-&amp;y-axis are not equally scaled." width="100%" />
+<img src="man/figures/README-square_plot-1.png" alt="Fig.2: The first board for the square-example above. Note that the x-&amp;y-axis are not equally scaled." width="100%" />
 <p class="caption">
-The first board for the square-example above. Note that the x-&y-axis
-are not equally scaled.
+Fig.2: The first board for the square-example above. Note that the
+x-&y-axis are not equally scaled.
 </p>
 
 </div>
 
 <div class="figure">
 
-<img src="man/figures/README-rectangle_plot-1.png" alt="The first board for the rectangle-example above." width="100%" />
+<img src="man/figures/README-rectangle_plot-1.png" alt="Fig.3: The first board for the rectangle-example above." width="100%" />
 <p class="caption">
-The first board for the rectangle-example above.
+Fig.3: The first board for the rectangle-example above.
 </p>
 
 </div>
 
 <div class="figure">
 
-<img src="man/figures/README-rectangle_flipped_plot-1.png" alt="The first board for the second rectangle-example above, where the pot-dimensions are flipped relative to the first one." width="100%" />
+<img src="man/figures/README-rectangle_flipped_plot-1.png" alt="Fig.4: The first board for the second rectangle-example above, where the pot-dimensions are flipped relative to the first one." width="100%" />
 <p class="caption">
-The first board for the second rectangle-example above, where the
+Fig.4: The first board for the second rectangle-example above, where the
 pot-dimensions are flipped relative to the first one.
 </p>
 
@@ -168,14 +168,14 @@ pot-dimensions are flipped relative to the first one.
 
 <div class="figure">
 
-<img src="man/figures/README-rectangle_enforced_plot-1.png" alt="The first board for the second rectangle-example above, while enforcing the dimensions of 'board_width' &amp; 'pot_width' to be locked to each other via setting 'rectangle_enforce_given_orientation=TRUE'. This option is intended to be used when rectangle-post _must_ be placed in a specific orientation, even if it doesn't fit the most pots onto a board. Notice that less pots could be fit onto the first board compared to the previous figures." width="100%" />
+<img src="man/figures/README-rectangle_enforced_plot-1.png" alt="Fig.5: The first board for the second rectangle-example above, while enforcing the dimensions of 'board_width' &amp; 'pot_width' to be locked to each other via setting 'rectangle_enforce_given_orientation=TRUE'. This option is intended to be used when rectangle-post _must_ be placed in a specific orientation, even if it doesn't fit the most pots onto a board. Notice that less pots could be fit onto the first board compared to the previous figures." width="100%" />
 <p class="caption">
-The first board for the second rectangle-example above, while enforcing
-the dimensions of ‘board_width’ & ‘pot_width’ to be locked to each other
-via setting ‘rectangle_enforce_given_orientation=TRUE’. This option is
-intended to be used when rectangle-post *must* be placed in a specific
-orientation, even if it doesn’t fit the most pots onto a board. Notice
-that less pots could be fit onto the first board compared to the
+Fig.5: The first board for the second rectangle-example above, while
+enforcing the dimensions of ‘board_width’ & ‘pot_width’ to be locked to
+each other via setting ‘rectangle_enforce_given_orientation=TRUE’. This
+option is intended to be used when rectangle-post *must* be placed in a
+specific orientation, even if it doesn’t fit the most pots onto a board.
+Notice that less pots could be fit onto the first board compared to the
 previous figures.
 </p>
 
@@ -191,20 +191,20 @@ circle_pots_rotated <- PTR::PTR_rotateBoards2(circle_pots,-1)
 
 <div class="figure">
 
-<img src="man/figures/README-circle_plot_rotated_forwards-1.png" alt="The first board now contains the pots of the previously-last board of 'circle_pots'." width="100%" />
+<img src="man/figures/README-circle_plot_rotated_forwards-1.png" alt="Fig.6: The first board now contains the pots of the previously-last board of 'circle_pots'." width="100%" />
 <p class="caption">
-The first board now contains the pots of the previously-last board of
-‘circle_pots’.
+Fig.6: The first board now contains the pots of the previously-last
+board of ‘circle_pots’.
 </p>
 
 </div>
 
 <div class="figure">
 
-<img src="man/figures/README-circle_plot_rotated_forwards2-1.png" alt="The second board now contains the pots of the previously-first board of 'circle_pots'." width="100%" />
+<img src="man/figures/README-circle_plot_rotated_forwards2-1.png" alt="Fig.7: The second board now contains the pots of the previously-first board of 'circle_pots'." width="100%" />
 <p class="caption">
-The second board now contains the pots of the previously-first board of
-‘circle_pots’.
+Fig.7: The second board now contains the pots of the previously-first
+board of ‘circle_pots’.
 </p>
 
 </div>
@@ -219,18 +219,19 @@ circle_pots_pots_rotated <- PTR::PTR_rotatePots(circle_pots,shifts = 2)
 
 <div class="figure">
 
-<img src="man/figures/README-pot_rotation_plot-1.png" alt="Pots are rotated left to right, bottom to top on a per-board-basis" width="100%" />
+<img src="man/figures/README-pot_rotation_plot-1.png" alt="Fig.8: Pots are rotated left to right, bottom to top on a per-board-basis" width="100%" />
 <p class="caption">
-Pots are rotated left to right, bottom to top on a per-board-basis
+Fig.8: Pots are rotated left to right, bottom to top on a
+per-board-basis
 </p>
 
 </div>
 
 <div class="figure">
 
-<img src="man/figures/README-pot_rotation_plot2-1.png" alt="Incomplete Trays behave as complete trays when rotating pots." width="100%" />
+<img src="man/figures/README-pot_rotation_plot2-1.png" alt="Fig.9: Incomplete Trays behave as complete trays when rotating pots." width="100%" />
 <p class="caption">
-Incomplete Trays behave as complete trays when rotating pots.
+Fig.9: Incomplete Trays behave as complete trays when rotating pots.
 </p>
 
 </div>
@@ -248,18 +249,66 @@ number. This requires two things:
 
 <div class="figure">
 
-<img src="man/figures/README-pot_randomisation_pre-1.png" alt="Pots with names assigned in sequential order" width="100%" />
+<img src="man/figures/README-pot_randomisation_pre-1.png" alt="Fig.10: Pots with names assigned in sequential order" width="100%" />
 <p class="caption">
-Pots with names assigned in sequential order
+Fig.10: Pots with names assigned in sequential order
 </p>
 
 </div>
 
 <div class="figure">
 
-<img src="man/figures/README-pot_randomisation_post-1.png" alt="Pots ordered by replicate-index" width="100%" />
+<img src="man/figures/README-pot_randomisation_post-1.png" alt="Fig.11: Pots ordered by replicate-index" width="100%" />
 <p class="caption">
-Pots ordered by replicate-index
+Fig.11: Pots ordered by replicate-index
 </p>
 
 </div>
+
+Be aware that sorting pots via `PTR::PTR_sortPots_by_potindex()` will
+*recreate* the boards from scratch. As a result, the following order of
+operations
+
+``` r
+# this step is not required, but necessary for this example. We load example 9, 
+# which creates 2 boards. The latter one is not fully populated.
+labelled_boards <- PTR::PTR_load_dummy_data(9)
+
+# swap around the 2 boards. The 'incomplete' board is now in 'board_1'.
+replicates_shift_boards <- PTR::PTR_rotateBoards2(labelled_boards) 
+
+# sort around the labels so that groups are uniformly distributed.
+# this means that 'replicates_boards_shifted_sort_pots$board_1'
+# is populated completely yet again, even though
+# 'replicates_shift_boards$board_1' is not filled completely.
+replicates_boards_shifted_sort_pots <- PTR::PTR_sortPots_by_potindex(replicates_shift_boards)
+#> Warning: Note: This function will also sort elements which share the same pot-index (e.g. 'UU_1/UG_1/ABAU_1/ABAG_1/UU_2/UG_2/...' alphabetically within each set of indices.
+#> For the example above, this will return 'ABAG_1/ABAU_1/UG_1/UU_1/UG_2/UU_2/...'.
+```
+
+will refill `replicates_boards_shifted_sort_pots$board_1`:
+
+<div class="figure">
+
+<img src="man/figures/README-pot_randomisation_refilles_boards_post1-1.png" alt="Fig.12: board_1 was refilled again." width="100%" />
+<p class="caption">
+Fig.12: board_1 was refilled again.
+</p>
+
+</div>
+
+compared to `replicates_shift_boards$board_2`:
+
+<div class="figure">
+
+<img src="man/figures/README-pot_randomisation_refilles_boards_post-1.png" alt="Fig.13: board_1 prior to sorting pots by potIndex" width="100%" />
+<p class="caption">
+Fig.13: board_1 prior to sorting pots by potIndex
+</p>
+
+</div>
+
+Thus, it is recommended to call `PTR::PTR_sortPots_by_potindex()`
+*first*, then rotate boards and/or pots. Due to the way the
+sorting-function works, this minor limitation is unlikely to be
+resolved.
