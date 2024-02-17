@@ -43,13 +43,13 @@ The functions in this package _technically_ work on an abstract board of any dim
 However, it is designed for the assumption that a `board` constitutes the area marked in green (denoted by `(3)`).
 Obviously, you can just decide that a `(2)` is a board, or even `(1)`. Up to you.
 
-```{r shelf_overview, echo = FALSE, fig.alt = "An empty shelf. An entire level is marked as a '1', a side as '2' and a board as '3'."}
+```{r shelf_overview, echo=FALSE, fig.alt="An empty shelf. An entire level is marked as a '1', a side as '2' and a board as '3'."}
 knitr::include_graphics("man/figures/shelf_overview_complete.png",rel_path = T)
 ```
 
 ## Defining boards for circular & square pots
 
-```{r fdef_circle_square, echo = T, results = 'hide',message = FALSE}
+```{r fdef_circle_square, echo = T, results='hide',message=FALSE}
 library(PTR)
 ## Circular pots
 circle_pots <- PTR_generateBoardLayouts2(
@@ -75,7 +75,7 @@ square_pots <- PTR_generateBoardLayouts2(
 ```
 The results of `PTR_generateBoardLayouts2()` has the principal structure
 
-```{r struct_output,eval = F}
+```{r struct_output,eval=F}
 ret
   $board_{n}
            $points      ## a list denoting the x/y-coordinates of the center point of a pot-graphic
@@ -87,7 +87,7 @@ ret
 
 Rectangular pots are defined similarly. However, they require additional arguments: 
 
-```{r fdef_rect, echo = T, results = 'hide',message = FALSE}
+```{r fdef_rect, echo = T, results='hide',message=FALSE}
 ## Rectangular Pots
 rectangle_pots <- PTR_generateBoardLayouts2(
   pots = 17,
@@ -132,19 +132,19 @@ rectangle_pots_not_flipped <- PTR_generateBoardLayouts2(
 ## Example Boards
 
 The following figures showcase the first board for the example-codes above:
-```{r circle_plot, echo = FALSE, warning = FALSE,fig.cap = "Fig.1: The first board for the circle-example above. Note that the x-&y-axis are not equally scaled."}
+```{r circle_plot, echo = FALSE, warning = FALSE,fig.cap="The first board for the circle-example above. Note that the x-&y-axis are not equally scaled."}
 circle_pots$board_1$board_plot
 ```
-```{r square_plot, echo = FALSE, warning = FALSE,fig.cap = "Fig.2: The first board for the square-example above. Note that the x-&y-axis are not equally scaled."}
+```{r square_plot, echo = FALSE, warning = FALSE,fig.cap="The first board for the square-example above. Note that the x-&y-axis are not equally scaled."}
 square_pots$board_1$board_plot
 ```
-```{r rectangle_plot, echo = FALSE, warning = FALSE,fig.cap = "Fig.3: The first board for the rectangle-example above."}
+```{r rectangle_plot, echo = FALSE, warning = FALSE,fig.cap="The first board for the rectangle-example above."}
 rectangle_pots$board_1$board_plot
 ```
-```{r rectangle_flipped_plot, echo = FALSE, warning = FALSE,fig.cap = "Fig.4: The first board for the second rectangle-example above, where the pot-dimensions are flipped relative to the first one."}
+```{r rectangle_flipped_plot, echo = FALSE, warning = FALSE,fig.cap="The first board for the second rectangle-example above, where the pot-dimensions are flipped relative to the first one."}
 rectangle_pots_flipped$board_1$board_plot
 ```
-```{r rectangle_enforced_plot, echo = FALSE, warning = FALSE,fig.cap = "Fig.5: The first board for the second rectangle-example above, while enforcing the dimensions of 'board_width' & 'pot_width' to be locked to each other via setting 'rectangle_enforce_given_orientation=TRUE'. This option is intended to be used when rectangle-post _must_ be placed in a specific orientation, even if it doesn't fit the most pots onto a board. Notice that less pots could be fit onto the first board compared to the previous figures."}
+```{r rectangle_enforced_plot, echo = FALSE, warning = FALSE,fig.cap="The first board for the second rectangle-example above, while enforcing the dimensions of 'board_width' & 'pot_width' to be locked to each other via setting 'rectangle_enforce_given_orientation=TRUE'. This option is intended to be used when rectangle-post _must_ be placed in a specific orientation, even if it doesn't fit the most pots onto a board. Notice that less pots could be fit onto the first board compared to the previous figures."}
 rectangle_pots_not_flipped$board_1$board_plot
 ```
 
@@ -152,13 +152,13 @@ rectangle_pots_not_flipped$board_1$board_plot
 
 Boards can be rotated via the function `PTR::PTR_rotateBoards2()`:
 
-```{r rotate_board_forwards, echo = T, results = 'hide', message = FALSE}
+```{r rotate_board_forwards, echo = T, results = 'hide', message=FALSE}
 circle_pots_rotated <- PTR::PTR_rotateBoards2(circle_pots,-1)
 ```
-```{r circle_plot_rotated_forwards, echo = FALSE, warning = FALSE,fig.cap = "Fig.6: The first board now contains the pots of the previously-last board of 'circle_pots'."}
+```{r circle_plot_rotated_forwards, echo = FALSE, warning = FALSE,fig.cap="The first board now contains the pots of the previously-last board of 'circle_pots'."}
 circle_pots_rotated$board_1$board_plot
 ```
-```{r circle_plot_rotated_forwards2, echo = FALSE, warning = FALSE,fig.cap = "Fig.7: The second board now contains the pots of the previously-first board of 'circle_pots'."}
+```{r circle_plot_rotated_forwards2, echo = FALSE, warning = FALSE,fig.cap="The second board now contains the pots of the previously-first board of 'circle_pots'."}
 circle_pots_rotated$board_2$board_plot
 ```
 
@@ -166,14 +166,14 @@ circle_pots_rotated$board_2$board_plot
 
 Pots can be rotated within a board by using `PTR::PTR_rotatePots()`:
 
-```{r pot_rotation, echo = T, results = 'hide', message = FALSE}
+```{r pot_rotation, echo = T, results = 'hide', message=FALSE}
 circle_pots_pots_rotated <- PTR::PTR_rotatePots(circle_pots,shifts = 2)
 ```
 
-```{r pot_rotation_plot, echo = FALSE, warning = FALSE, fig.cap = "Fig.8: Pots are rotated left to right, bottom to top on a per-board-basis"}
+```{r pot_rotation_plot, echo = FALSE, warning = FALSE, fig.cap="Pots are rotated left to right, bottom to top on a per-board-basis"}
 circle_pots_pots_rotated$board_1$board_plot
 ```
-```{r pot_rotation_plot2, echo = FALSE, warning = FALSE, fig.cap = "Fig.9: Incomplete Trays behave as complete trays when rotating pots."}
+```{r pot_rotation_plot2, echo = FALSE, warning = FALSE, fig.cap="Incomplete Trays behave as complete trays when rotating pots."}
 circle_pots_pots_rotated$board_4$board_plot
 ```
 
@@ -188,48 +188,15 @@ This requires two things:
 - manually labelled pots
 - Labels complying to the principal format `{GroupName}_{ReplicateID}`
 
-```{r pot_randomisation, message = FALSE, warning = FALSE, include = FALSE}
+```{r pot_randomisation, message=FALSE, warning=FALSE, include=FALSE}
 square_pots_with_labels <- PTR::PTR_load_dummy_data(9)
 square_pots_with_labels_sorted_by_potindex <- PTR::PTR_sortPots_by_potindex(square_pots_with_labels)
 ```
 
-```{r pot_randomisation_pre, echo = FALSE, warning = FALSE, fig.cap = "Fig.10: Pots with names assigned in sequential order"}
+```{r pot_randomisation_pre, echo = FALSE, warning = FALSE, fig.cap="Pots with names assigned in sequential order"}
 square_pots_with_labels$board_1$board_plot
 ```
 
-```{r pot_randomisation_post, echo = FALSE, warning = FALSE, fig.cap = "Fig.11: Pots ordered by replicate-index"}
+```{r pot_randomisation_post, echo = FALSE, warning = FALSE, fig.cap="Pots ordered by replicate-index"}
 square_pots_with_labels_sorted_by_potindex$board_1$board_plot
 ```
-
-Be aware that sorting pots via `PTR::PTR_sortPots_by_potindex()` will _recreate_ the boards from scratch.
-As a result, the following order of operations 
-
-```{r pot_randomisation_refilles_boards, echo=TRUE, message=FALSE, results='hide'}
-# this step is not required, but necessary for this example. We load example 9, 
-# which creates 2 boards. The latter one is not fully populated.
-labelled_boards <- PTR::PTR_load_dummy_data(9)
-
-# swap around the 2 boards. The 'incomplete' board is now in 'board_1'.
-replicates_shift_boards <- PTR::PTR_rotateBoards2(labelled_boards) 
-
-# sort around the labels so that groups are uniformly distributed.
-# this means that 'replicates_boards_shifted_sort_pots$board_1'
-# is populated completely yet again, even though
-# 'replicates_shift_boards$board_1' is not filled completely.
-replicates_boards_shifted_sort_pots <- PTR::PTR_sortPots_by_potindex(replicates_shift_boards)
-```
-
-will refill `replicates_boards_shifted_sort_pots$board_1`:
-
-```{r pot_randomisation_refilles_boards_post1, echo = FALSE, warning = FALSE, fig.cap = "Fig.12: board_1 was refilled again."}
-replicates_boards_shifted_sort_pots$board_1$board_plot
-```
-
-compared to `replicates_shift_boards$board_2`:
-
-```{r pot_randomisation_refilles_boards_post, echo = FALSE, warning = FALSE, fig.cap = "Fig.13: board_1 prior to sorting pots by potIndex"}
-replicates_shift_boards$board_1$board_plot
-```
-
-Thus, it is recommended to call `PTR::PTR_sortPots_by_potindex()` _first_, then rotate boards and/or pots.
-Due to the way the sorting-function works, this minor limitation is unlikely to be resolved.
