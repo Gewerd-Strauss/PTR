@@ -304,10 +304,11 @@ to `replicates_shift_boards$board_2` (A):
 
 <div class="figure">
 
-<img src="man/figures/README-merged_plots-1.png" alt="Fig 12: (A) Board_1 after rotating boards, but before rearranging labels. (B) Board_1 after both rotating boards and rearranging labels." width="100%" />
+<img src="man/figures/README-merged_plots-1.png" alt="Fig 12: (A) Board_1 after rotating boards, but before rearranging labels. (B) Board_1 after both rotating boards and rearranging labels. For overview-purposes only; this plot does not resemble typical output." width="100%" />
 <p class="caption">
 Fig 12: (A) Board_1 after rotating boards, but before rearranging
 labels. (B) Board_1 after both rotating boards and rearranging labels.
+For overview-purposes only; this plot does not resemble typical output.
 </p>
 
 </div>
@@ -351,41 +352,17 @@ labelled_boards_with_unequal_groups <- PTR_generateBoardLayouts2(
   lbls = labels_,
   pot_type = "square"
 )
-labelled_boards_with_unequal_groups$board_1$board_plot
 ```
 
-<img src="man/figures/README-LG_create_unequal_labels-1.png" width="100%" />
+    #> Warning: Note: This function will also sort elements which share the same pot-index (e.g. 'UU_1/UG_1/ABAU_1/ABAG_1/UU_2/UG_2/...' alphabetically within each set of indices.
+    #> For the example above, this will return 'ABAG_1/ABAU_1/UG_1/UU_1/UG_2/UU_2/...'.
 
-``` r
-labelled_boards_with_unequal_groups$board_2$board_plot
-```
+<div class="figure">
 
-<img src="man/figures/README-LG_create_unequal_labels-2.png" width="100%" />
+<img src="man/figures/README-LG_sort_by_ID-1.png" alt="Fig 13: For overview-purposes only; this plot does not resemble typical output." width="100%" />
+<p class="caption">
+Fig 13: For overview-purposes only; this plot does not resemble typical
+output.
+</p>
 
-``` r
-labelled_boards_with_unequal_groups$board_3$board_plot
-```
-
-<img src="man/figures/README-LG_create_unequal_labels-3.png" width="100%" />
-
-``` r
-labelled_boards_with_unequal_groups_sorted_pots <- PTR::PTR_sortPots_by_potindex(labelled_boards_with_unequal_groups)
-#> Warning: Note: This function will also sort elements which share the same pot-index (e.g. 'UU_1/UG_1/ABAU_1/ABAG_1/UU_2/UG_2/...' alphabetically within each set of indices.
-#> For the example above, this will return 'ABAG_1/ABAU_1/UG_1/UU_1/UG_2/UU_2/...'.
-ggpubr::ggarrange(labelled_boards_with_unequal_groups_sorted_pots$board_1$board_plot
-  ,labelled_boards_with_unequal_groups_sorted_pots$board_2$board_plot
-  ,labelled_boards_with_unequal_groups_sorted_pots$board_3$board_plot
-  ,common.legend = T # COMMON LEGEND
-  ,legend = "bottom" # legend position
-  ,align = "hv" # Align them both, horizontal and vertical
-  ,ncol = 3)  # number of rows
-```
-
-<img src="man/figures/README-LG_sort_by_ID-1.png" width="100%" />
-
-``` r
-#cat("\014") ## clear console
-#labelled_boards_with_unequal_groups_sorted_pots$board_1$board_plot
-#labelled_boards_with_unequal_groups_sorted_pots$board_2$board_plot
-#labelle
-```
+</div>

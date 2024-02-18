@@ -115,16 +115,6 @@ which is very useless in this state, because groups should not really be neatly 
 
 ```{r LG_sort_by_ID, echo = TRUE, message = FALSE}
 labelled_boards_with_unequal_groups_sorted_pots <- PTR::PTR_sortPots_by_potindex(labelled_boards_with_unequal_groups)
-ggpubr::ggarrange(labelled_boards_with_unequal_groups_sorted_pots$board_1$board_plot
-  ,labelled_boards_with_unequal_groups_sorted_pots$board_2$board_plot
-  ,labelled_boards_with_unequal_groups_sorted_pots$board_3$board_plot
-  ,common.legend = T # COMMON LEGEND
-  ,legend = "bottom" # legend position
-  ,align = "hv" # Align them both, horizontal and vertical
-  ,ncol = 3)  # number of rows
-#cat("\014") ## clear console
-#labelled_boards_with_unequal_groups_sorted_pots$board_1$board_plot
-#labelled_boards_with_unequal_groups_sorted_pots$board_2$board_plot
-#labelled_boards_with_unequal_groups_sorted_pots$board_3$board_plot
-```
-
+labelled_boards_with_unequal_groups_sorted_pots$board_1$board_plot
+labelled_boards_with_unequal_groups_sorted_pots$board_2$board_plot
+labelled_boards_with_unequal_groups_sorted_pots$board_3$board_plot

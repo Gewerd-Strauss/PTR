@@ -236,14 +236,23 @@ will refill `replicates_boards_shifted_sort_pots$board_1` (B), compared to `repl
 #replicates_shift_boards$board_1$board_plot
 ```
 
-```{r merged_plots,fig.cap = "Fig 12: (A) Board_1 after rotating boards, but before rearranging labels. (B) Board_1 after both rotating boards and rearranging labels.", echo = FALSE, warning = FALSE, results = 'hide'}
-ggpubr::ggarrange(replicates_shift_boards$board_1$board_plot + ggpubr::grids("y",linetype=1) + ggplot2::theme(plot.title=ggplot2::element_blank())
-                                     ,replicates_boards_shifted_sort_pots$board_1$board_plot + ggpubr::grids("y",linetype=1) + ggplot2::theme(plot.title=ggplot2::element_blank())
-                                     ,labels = "AUTO" # labels
-                                     ,common.legend = T # COMMON LEGEND
-                                     ,legend = "bottom" # legend position
-                                     ,align = "hv" # Align them both, horizontal and vertical
-                                     ,ncol = 2)  # number of rows
+```{r merged_plots,fig.cap = "Fig 12: (A) Board_1 after rotating boards, but before rearranging labels. (B) Board_1 after both rotating boards and rearranging labels. For overview-purposes only; this plot does not resemble typical output.", echo = FALSE, warning = FALSE, results = 'hide'}
+ggpubr::ggarrange(replicates_shift_boards$board_1$board_plot
+                    + ggpubr::grids("y",linetype=1)
+                    + ggplot2::theme(plot.title=ggplot2::element_blank())
+                  ,replicates_boards_shifted_sort_pots$board_1$board_plot
+                    + ggpubr::grids("y",linetype=1)
+                    + ggplot2::theme(
+                        plot.title=ggplot2::element_blank()
+                        ,axis.title.y = ggplot2::element_blank()
+                        ,axis.ticks.y = ggplot2::element_blank()
+                        ,axis.text.y = ggplot2::element_blank()
+                        )
+                  ,labels = "AUTO" # labels
+                  ,common.legend = T # COMMON LEGEND
+                  ,legend = "bottom" # legend position
+                  ,align = "hv" # Align them both, horizontal and vertical
+                  ,ncol = 2)  # number of rows
 ```
 
 Thus, it is recommended to call `PTR::PTR_sortPots_by_potindex()` _first_, then rotate boards and/or pots.
@@ -277,21 +286,25 @@ labelled_boards_with_unequal_groups <- PTR_generateBoardLayouts2(
   lbls = labels_,
   pot_type = "square"
 )
-labelled_boards_with_unequal_groups$board_1$board_plot
-labelled_boards_with_unequal_groups$board_2$board_plot
-labelled_boards_with_unequal_groups$board_3$board_plot
 ```
 
-```{r LG_sort_by_ID, echo = TRUE, message = FALSE}
+```{r LG_sort_by_ID, echo=FALSE, message=FALSE, fig.cap = "Fig 13: For overview-purposes only; this plot does not resemble typical output."}
 labelled_boards_with_unequal_groups_sorted_pots <- PTR::PTR_sortPots_by_potindex(labelled_boards_with_unequal_groups)
 ggpubr::ggarrange(labelled_boards_with_unequal_groups_sorted_pots$board_1$board_plot
-  ,labelled_boards_with_unequal_groups_sorted_pots$board_2$board_plot
-  ,labelled_boards_with_unequal_groups_sorted_pots$board_3$board_plot
+  ,labelled_boards_with_unequal_groups_sorted_pots$board_2$board_plot 
+  + ggplot2::theme(
+      axis.title.y = ggplot2::element_blank()
+      ,axis.ticks.y = ggplot2::element_blank()
+      ,axis.text.y = ggplot2::element_blank()
+      )
+  ,labelled_boards_with_unequal_groups_sorted_pots$board_3$board_plot 
+  + ggplot2::theme(
+      axis.title.y = ggplot2::element_blank()
+      ,axis.ticks.y = ggplot2::element_blank()
+      ,axis.text.y = ggplot2::element_blank()
+      )
   ,common.legend = T # COMMON LEGEND
   ,legend = "bottom" # legend position
   ,align = "hv" # Align them both, horizontal and vertical
   ,ncol = 3)  # number of rows
-#cat("\014") ## clear console
-#labelled_boards_with_unequal_groups_sorted_pots$board_1$board_plot
-#labelled_boards_with_unequal_groups_sorted_pots$board_2$board_plot
-#labelle
+```
