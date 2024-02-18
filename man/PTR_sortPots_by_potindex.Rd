@@ -2,7 +2,7 @@
 % Please edit documentation in R/shifting.R
 \name{PTR_sortPots_by_potindex}
 \alias{PTR_sortPots_by_potindex}
-\title{Sort Labels of a board-object based on replicate-ID/replicate-**number**}
+\title{Sort Labels of a board-object based on replicate-ID/replicate-**number**.}
 \usage{
 PTR_sortPots_by_potindex(boards, shifts = -1)
 }

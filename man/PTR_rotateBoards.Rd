@@ -2,7 +2,7 @@
 % Please edit documentation in R/shifting.R
 \name{PTR_rotateBoards}
 \alias{PTR_rotateBoards}
-\title{rotate Boards forward or backwards through the list.}
+\title{Rotate Boards forward or backwards through the list.}
 \usage{
 PTR_rotateBoards(boards, shifts = -1)
 }

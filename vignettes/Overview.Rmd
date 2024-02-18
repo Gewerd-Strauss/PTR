@@ -1,0 +1,49 @@
+---
+title: "Overview"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Overview}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(PTR)
+```
+
+"PTR" is a small package built to generate so-called _board-layouts_, generating the number of boards required to accommodate a given number of pots.
+Additionally, it has a couple of utility-functions to be used _on_ these board-layouts.
+
+# Objectives & Objects
+
+The main object central to the package is a so called _board-object_. 
+It contains a number of _board-layouts_, each of which has a plot containing the board's pots - as well as a the input parameters used to generate the entire _board-object_.
+
+There are 3 "sorts" of functions in this package:
+
+## Creators
+
+`PTR::PTR_generateBoardLayouts()` & `PTR::PTR_generateBoardLayouts2()`: 
+
+These are functions which create an initial _board-object_. They function basically equally, with one distinction:
+Rectangular pots can only be generated and modified using the "second" version.
+Both functions are able to generate layouts for square and circular pots.
+
+
+## Modifiers
+
+- `PTR::PTR_rotateBoards()`: rotate boards as a whole - to simulate moving boards `n` places forwards or backwards
+- `PTR::PTR_rotatePots()`: rotate pots within a board forwards or backwards
+- `PTR::PTR_sortPots_by_potindex()`: sort **labelled** pots based on their replicate-ID. If boards are to be rotated, _make sure to execute this function first_. See the vignette on _Labelled_Groups_ for more information.
+
+## Auxiliary
+
+- `PTR::PTR_load_dummy_data()`: generate default board-layouts from a set of pre-determined parameters. This function can be ignored by and large and only serves as a simple way to generate a _board-object_ for testing adn getting acquainted with what is possible.
+

@@ -23,6 +23,17 @@ devtools::install_github("https://github.com/Gewerd-Strauss/PTR@master")
 devtools::install_github("https://github.com/Gewerd-Strauss/PTR@dev")
 ```
 
+If help-vignettes are to be downloaded, use instead:
+
+``` r
+devtools::install_github("https://github.com/Gewerd-Strauss/PTR@master",build_vignettes = T)
+devtools::install_github("https://github.com/Gewerd-Strauss/PTR@dev",build_vignettes = T)
+```
+
+Vignettes are rendered documents discussing specific topics within a
+package. Installing them is recommended, but not required for utilising
+the package itself.
+
 # Documentation
 
 A Tray-Layout can be defined given the required number of pots, their
@@ -42,7 +53,7 @@ can just decide that a `(2)` is a board, or even `(1)`. Up to you.
 ``` r
 library(PTR)
 ## Circular pots
-circle_pots <- PTR_generateBoardLayouts2(
+circle_pots <- PTR::PTR_generateBoardLayouts2(
   pots = 64,
   board_width = 30,
   board_height = 60,
@@ -52,7 +63,7 @@ circle_pots <- PTR_generateBoardLayouts2(
   pot_type = "circle"
 );
 ## Square pots
-square_pots <- PTR_generateBoardLayouts2(
+square_pots <- PTR::PTR_generateBoardLayouts2(
   pots = 64,
   board_width = 30,
   board_height = 60,
@@ -82,7 +93,7 @@ arguments:
 
 ``` r
 ## Rectangular Pots
-rectangle_pots <- PTR_generateBoardLayouts2(
+rectangle_pots <- PTR::PTR_generateBoardLayouts2(
   pots = 17,
   board_width = 30,
   board_height = 60,
@@ -95,7 +106,7 @@ rectangle_pots <- PTR_generateBoardLayouts2(
   pot_type = "rectangle"
 )
 ## Flipping the pot-dimensions 
-rectangle_pots_flipped <- PTR_generateBoardLayouts2(
+rectangle_pots_flipped <- PTR::PTR_generateBoardLayouts2(
   pots = 17,
   board_width = 30,
   board_height = 60,
@@ -107,7 +118,7 @@ rectangle_pots_flipped <- PTR_generateBoardLayouts2(
   lbls = paste0("rectangle12x10_", 1:17),
   pot_type = "rectangle"
 )
-rectangle_pots_not_flipped <- PTR_generateBoardLayouts2(
+rectangle_pots_not_flipped <- PTR::PTR_generateBoardLayouts2(
   pots = 17,
   board_width = 30,
   board_height = 60,
@@ -183,10 +194,10 @@ previous figures.
 
 ## Rotating Boards
 
-Boards can be rotated via the function `PTR::PTR_rotateBoards2()`:
+Boards can be rotated via the function `PTR::PTR_rotateBoards()`:
 
 ``` r
-circle_pots_rotated <- PTR::PTR_rotateBoards2(circle_pots,-1)
+circle_pots_rotated <- PTR::PTR_rotateBoards(circle_pots,-1)
 ```
 
 <div class="figure">
@@ -214,7 +225,9 @@ board of ‘circle_pots’.
 Pots can be rotated within a board by using `PTR::PTR_rotatePots()`:
 
 ``` r
-circle_pots_pots_rotated <- PTR::PTR_rotatePots(circle_pots,shifts = 2)
+# positive integers shift a board to the next-up position
+# negative integers shift a board th the previous position
+circle_pots_pots_rotated <- PTR::PTR_rotatePots(circle_pots,shifts = 2) 
 ```
 
 <div class="figure">
@@ -275,7 +288,7 @@ operations
 labelled_boards <- PTR::PTR_load_dummy_data(9)
 
 # swap around the 2 boards. The 'incomplete' board is now in 'board_1'.
-replicates_shift_boards <- PTR::PTR_rotateBoards2(labelled_boards) 
+replicates_shift_boards <- PTR::PTR_rotateBoards(labelled_boards) 
 
 # sort around the labels so that groups are uniformly distributed.
 # this means that 'replicates_boards_shifted_sort_pots$board_1'
@@ -286,24 +299,16 @@ replicates_boards_shifted_sort_pots <- PTR::PTR_sortPots_by_potindex(replicates_
 #> For the example above, this will return 'ABAG_1/ABAU_1/UG_1/UU_1/UG_2/UU_2/...'.
 ```
 
-will refill `replicates_boards_shifted_sort_pots$board_1`:
+will refill `replicates_boards_shifted_sort_pots$board_1` (B), compared
+to `replicates_shift_boards$board_2` (A):
 
 <div class="figure">
 
-<img src="man/figures/README-pot_randomisation_refilles_boards_post1-1.png" alt="Fig.12: board_1 was refilled again." width="100%" />
+<img src="man/figures/README-merged_plots-1.png" alt="Fig 12: (A) Board_1 after rotating boards, but before rearranging labels. (B) Board_1 after both rotating boards and rearranging labels. For overview-purposes only; this plot does not resemble typical output." width="100%" />
 <p class="caption">
-Fig.12: board_1 was refilled again.
-</p>
-
-</div>
-
-compared to `replicates_shift_boards$board_2`:
-
-<div class="figure">
-
-<img src="man/figures/README-pot_randomisation_refilles_boards_post-1.png" alt="Fig.13: board_1 prior to sorting pots by potIndex" width="100%" />
-<p class="caption">
-Fig.13: board_1 prior to sorting pots by potIndex
+Fig 12: (A) Board_1 after rotating boards, but before rearranging
+labels. (B) Board_1 after both rotating boards and rearranging labels.
+For overview-purposes only; this plot does not resemble typical output.
 </p>
 
 </div>
@@ -312,3 +317,52 @@ Thus, it is recommended to call `PTR::PTR_sortPots_by_potindex()`
 *first*, then rotate boards and/or pots. Due to the way the
 sorting-function works, this minor limitation is unlikely to be
 resolved.
+
+``` r
+# this step is not required, but necessary for this example. 
+N <- 8
+N2 <- 2
+labels <- c("UU", "UG", "ABAU", "ABAG")
+repeated_vector <- rep(labels, each = N)
+labels_calibration <- c("cUU","cUG","cABAU","cABAG")
+repeated_vector2 <- rep(labels_calibration,each = N2)
+# Create the indices vector
+indices <- rep(1:N, times = length(labels))
+indices2 <- rep(1:N2, times = length(labels_calibration))
+# Combine repeated_vector and indices using paste
+labels1 <- paste(repeated_vector, indices, sep = "_")
+labels2 <- paste(repeated_vector2, indices2, sep = "_")
+labels_ <- c(labels1,labels2)
+print(labels_) # let's display the labels we want to assign
+#>  [1] "UU_1"    "UU_2"    "UU_3"    "UU_4"    "UU_5"    "UU_6"    "UU_7"   
+#>  [8] "UU_8"    "UG_1"    "UG_2"    "UG_3"    "UG_4"    "UG_5"    "UG_6"   
+#> [15] "UG_7"    "UG_8"    "ABAU_1"  "ABAU_2"  "ABAU_3"  "ABAU_4"  "ABAU_5" 
+#> [22] "ABAU_6"  "ABAU_7"  "ABAU_8"  "ABAG_1"  "ABAG_2"  "ABAG_3"  "ABAG_4" 
+#> [29] "ABAG_5"  "ABAG_6"  "ABAG_7"  "ABAG_8"  "cUU_1"   "cUU_2"   "cUG_1"  
+#> [36] "cUG_2"   "cABAU_1" "cABAU_2" "cABAG_1" "cABAG_2"
+labelled_boards_with_unequal_groups <- PTR_generateBoardLayouts2(
+  pots = 40, ## note that we increased the number of pots. In this example, 
+  board_width = 30,
+  board_height = 60,
+  pot_radius = 5,
+  pot_diameter = 5 * 2,
+  pot_rectangle_width = 5 * 2,
+  pot_rectangle_height = 5 * 2,
+  distance = 0,
+  lbls = labels_,
+  pot_type = "square"
+)
+```
+
+    #> Warning: Note: This function will also sort elements which share the same pot-index (e.g. 'UU_1/UG_1/ABAU_1/ABAG_1/UU_2/UG_2/...' alphabetically within each set of indices.
+    #> For the example above, this will return 'ABAG_1/ABAU_1/UG_1/UU_1/UG_2/UU_2/...'.
+
+<div class="figure">
+
+<img src="man/figures/README-LG_sort_by_ID-1.png" alt="Fig 13: For overview-purposes only; this plot does not resemble typical output." width="100%" />
+<p class="caption">
+Fig 13: For overview-purposes only; this plot does not resemble typical
+output.
+</p>
+
+</div>
