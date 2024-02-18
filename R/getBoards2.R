@@ -3,6 +3,7 @@
 #'
 #' @return a 'board'-object containing
 #' @keywords internal
+#' @noRd
 #
 get_boards2 <- function(board_width, board_height, pot_radius, pot_diameter, pot_rectangle_width, pot_rectangle_height, pots, pot_type, rectangle_enforce_given_orientation = FALSE) {
   boards <- list()
