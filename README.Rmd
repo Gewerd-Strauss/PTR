@@ -167,7 +167,9 @@ circle_pots_rotated$board_2$board_plot
 Pots can be rotated within a board by using `PTR::PTR_rotatePots()`:
 
 ```{r pot_rotation, echo = T, results = 'hide', message = FALSE}
-circle_pots_pots_rotated <- PTR::PTR_rotatePots(circle_pots,shifts = 2)
+# positive integers shift a board to the next-up position
+# negative integers shift a board th the previous position
+circle_pots_pots_rotated <- PTR::PTR_rotatePots(circle_pots,shifts = 2) 
 ```
 
 ```{r pot_rotation_plot, echo = FALSE, warning = FALSE, fig.cap = "Fig.8: Pots are rotated left to right, bottom to top on a per-board-basis"}

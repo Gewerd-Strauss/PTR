@@ -214,7 +214,9 @@ board of ‘circle_pots’.
 Pots can be rotated within a board by using `PTR::PTR_rotatePots()`:
 
 ``` r
-circle_pots_pots_rotated <- PTR::PTR_rotatePots(circle_pots,shifts = 2)
+# positive integers shift a board to the next-up position
+# negative integers shift a board th the previous position
+circle_pots_pots_rotated <- PTR::PTR_rotatePots(circle_pots,shifts = 2) 
 ```
 
 <div class="figure">
