@@ -1,0 +1,120 @@
+---
+title: "Labelled_Groups"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Labelled_Groups}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(PTR)
+```
+
+# General Example - groups of equal sizes
+
+The default names `square_XX`, `circle_XX` and `rectangle_XX` are not that useful in real life, where a pot-layout is supposed to contain experimental groups. 
+For `PTR::PTR_sortPots_by_potindex()` to sort pots uniformly, the created labels **must** adhere to the principal format `{GroupName}_{IntegerID}`:
+
+```{r LG_create_labels, echo = TRUE, message = FALSE}
+# this step is not required, but necessary for this example. 
+N <- 8
+labels <- c("UU", "UG", "ABAU", "ABAG")
+repeated_vector <- rep(labels, each = N)
+
+# Create the indices vector
+indices <- rep(1:N, times = length(labels))
+
+# Combine repeated_vector and indices using paste
+labels_ <- paste(repeated_vector, indices, sep = "_")
+print(labels_) # let's display the labels we want to assign
+```
+
+Next, we create a board-layout using these labels:
+
+```{r LG_create_labelled_boards, echo = TRUE, message = FALSE}
+# Example usage for square pots
+labelled_boards <- PTR_generateBoardLayouts2(
+  pots = 32,
+  board_width = 30,
+  board_height = 60,
+  pot_radius = 5,
+  pot_diameter = 5 * 2,
+  pot_rectangle_width = 5 * 2,
+  pot_rectangle_height = 5 * 2,
+  distance = 0,
+  lbls = labels_,
+  pot_type = "square"
+)
+```
+
+We can see now that the labels were added in the order shown above, with the remaining labels being used for the remaining pots on board 2:
+
+```{r LG_compare_created_boards_to_labels, echo = TRUE, message = FALSE}
+labelled_boards$board_1$board_plot # the first board
+```
+
+Now that we know the current layout, let's sort the labels. 
+
+```{r LG_sort_pots, echo = TRUE, message = FALSE}
+labelled_boards_shifted_sort_pots <- PTR::PTR_sortPots_by_potindex(labelled_boards)
+```
+
+The intent behind this function is to ensure an approximately uniform distribution of _replicates_ across each section of the entire range. Put simply, this function groups the first replicates of all groups together, then the second replicates, followed by the third, and so on:
+
+```{r LG_show_sorted_pots_boards, echo = TRUE, mssage = FALSE}
+labelled_boards_shifted_sort_pots$board_1$board_plot
+```
+
+
+# Groups of unequal sizes
+
+There are scenarios where the number of replicates differ between groups. In this case, the procedure is more or less the same. First, you create your "base" board-object:
+
+```{r LG_create_unequal_labels, echo = TRUE, message = FALSE}
+# this step is not required, but necessary for this example. 
+N <- 8
+N2 <- 2
+labels <- c("UU", "UG", "ABAU", "ABAG")
+repeated_vector <- rep(labels, each = N)
+labels_calibration <- c("cUU","cUG","cABAU","cABAG")
+repeated_vector2 <- rep(labels_calibration,each = N2)
+# Create the indices vector
+indices <- rep(1:N, times = length(labels))
+indices2 <- rep(1:N2, times = length(labels_calibration))
+# Combine repeated_vector and indices using paste
+labels1 <- paste(repeated_vector, indices, sep = "_")
+labels2 <- paste(repeated_vector2, indices2, sep = "_")
+labels_ <- c(labels1,labels2)
+print(labels_) # let's display the labels we want to assign
+labelled_boards_with_unequal_groups <- PTR_generateBoardLayouts2(
+  pots = 40, ## note that we increased the number of pots. In this example, 
+  board_width = 30,
+  board_height = 60,
+  pot_radius = 5,
+  pot_diameter = 5 * 2,
+  pot_rectangle_width = 5 * 2,
+  pot_rectangle_height = 5 * 2,
+  distance = 0,
+  lbls = labels_,
+  pot_type = "square"
+)
+labelled_boards_with_unequal_groups$board_1$board_plot
+labelled_boards_with_unequal_groups$board_2$board_plot
+labelled_boards_with_unequal_groups$board_3$board_plot
+```
+
+which is very useless in this state, because groups should not really be neatly sorted like this usually. Thus, we now sort the labels by replicate-ID:
+
+```{r LG_sort_by_ID, echo = TRUE, message = FALSE}
+labelled_boards_with_unequal_groups_sorted_pots <- PTR::PTR_sortPots_by_potindex(labelled_boards_with_unequal_groups)
+labelled_boards_with_unequal_groups_sorted_pots$board_1$board_plot
+labelled_boards_with_unequal_groups_sorted_pots$board_2$board_plot
+labelled_boards_with_unequal_groups_sorted_pots$board_3$board_plot
