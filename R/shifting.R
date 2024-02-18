@@ -26,7 +26,8 @@ shifter <- function(x, n = 1) {
     return(a)
   }
 }
-#' rotate Boards forward or backwards through the list.
+
+#' Rotate Boards forward or backwards through the list.
 #'
 #' To shift the pots themselves, consider using `PTR_rotatePots`
 #' @param boards boards to shift around
@@ -91,7 +92,7 @@ PTR_rotateBoards <- function(boards, shifts = -1) {
   return(ret)
 }
 
-#' rotate Boards forward or backwards through the list.
+#' Rotate Boards forwards or backwards through the list.
 #'
 #' To shift the pots themselves, consider using `PTR_rotatePots2`
 #' @param boards boards to shift around
@@ -102,21 +103,22 @@ PTR_rotateBoards <- function(boards, shifts = -1) {
 #'
 #' @importFrom stringr str_c
 #' @return a new set of boards containing shifted pots
-#' @export
+#' @keywords internal
+#' @noRd
 #'
 #' @examples
 #' \dontrun{
 #' ob2 <- PTR_load_dummy_data(5) # load example dummy data for the `2`-functions
-#' nb21 <- PTR_rotateBoards2(ob2, -1) # board 1 goes to last position, board 2
+#' nb21 <- PTR_rotateBoards(ob2, -1) # board 1 goes to last position, board 2
 #' # goes to first position
-#' nb22 <- PTR_rotateBoards2(ob2, +1) # board 1 goes to 2nd position, last board
+#' nb22 <- PTR_rotateBoards(ob2, +1) # board 1 goes to 2nd position, last board
 #' # goes to first position
 #' }
 PTR_rotateBoards2 <- function(boards, shifts = -1) {
   if (abs(shifts) == length(boards)) {
     swarning <- simpleWarning(
       str_c(
-        "rotateBoards(): ",
+        "rotateBoards2(): ",
         "Your shift will be perfectly circular, putting every board in its previous place."
       )
     )
@@ -147,7 +149,8 @@ PTR_rotateBoards2 <- function(boards, shifts = -1) {
   }
   return(ret)
 }
-#' Title
+
+#' Rotate Pots forwards or backwards through a board.
 #'
 #' To shift the boards themselves, consider using `PTR_rotateBoards`
 #' @param boards boards in which pots are to be shifted within
@@ -218,7 +221,8 @@ PTR_rotatePots <- function(boards, shifts = 2) {
 
   return(ret)
 }
-#' Sort Labels of a board-object based on replicate-ID/replicate-**number**
+
+#' Sort Labels of a board-object based on replicate-ID/replicate-**number**.
 #'
 #'
 #' Use this function after generating a board to create an ordered layout where
