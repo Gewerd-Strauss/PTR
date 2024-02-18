@@ -230,17 +230,81 @@ replicates_shift_boards <- PTR::PTR_rotateBoards(labelled_boards)
 replicates_boards_shifted_sort_pots <- PTR::PTR_sortPots_by_potindex(replicates_shift_boards)
 ```
 
-will refill `replicates_boards_shifted_sort_pots$board_1`:
-
-```{r pot_randomisation_refilles_boards_post1, echo = FALSE, warning = FALSE, fig.cap = "Fig.12: board_1 was refilled again."}
-replicates_boards_shifted_sort_pots$board_1$board_plot
-```
-
-compared to `replicates_shift_boards$board_2`:
+will refill `replicates_boards_shifted_sort_pots$board_1` (B), compared to `replicates_shift_boards$board_2` (A):
 
 ```{r pot_randomisation_refilles_boards_post, echo = FALSE, warning = FALSE, fig.cap = "Fig.13: board_1 prior to sorting pots by potIndex"}
-replicates_shift_boards$board_1$board_plot
+#replicates_shift_boards$board_1$board_plot
+```
+
+```{r merged_plots,fig.cap = "Fig 12: (A) Board_1 after rotating boards, but before rearranging labels. (B) Board_1 after both rotating boards and rearranging labels. For overview-purposes only; this plot does not resemble typical output.", echo = FALSE, warning = FALSE, results = 'hide'}
+ggpubr::ggarrange(replicates_shift_boards$board_1$board_plot
+                    + ggpubr::grids("y",linetype=1)
+                    + ggplot2::theme(plot.title=ggplot2::element_blank())
+                  ,replicates_boards_shifted_sort_pots$board_1$board_plot
+                    + ggpubr::grids("y",linetype=1)
+                    + ggplot2::theme(
+                        plot.title=ggplot2::element_blank()
+                        ,axis.title.y = ggplot2::element_blank()
+                        ,axis.ticks.y = ggplot2::element_blank()
+                        ,axis.text.y = ggplot2::element_blank()
+                        )
+                  ,labels = "AUTO" # labels
+                  ,common.legend = T # COMMON LEGEND
+                  ,legend = "bottom" # legend position
+                  ,align = "hv" # Align them both, horizontal and vertical
+                  ,ncol = 2)  # number of rows
 ```
 
 Thus, it is recommended to call `PTR::PTR_sortPots_by_potindex()` _first_, then rotate boards and/or pots.
 Due to the way the sorting-function works, this minor limitation is unlikely to be resolved.
+
+```{r LG_create_unequal_labels, echo = TRUE, message = FALSE}
+# this step is not required, but necessary for this example. 
+N <- 8
+N2 <- 2
+labels <- c("UU", "UG", "ABAU", "ABAG")
+repeated_vector <- rep(labels, each = N)
+labels_calibration <- c("cUU","cUG","cABAU","cABAG")
+repeated_vector2 <- rep(labels_calibration,each = N2)
+# Create the indices vector
+indices <- rep(1:N, times = length(labels))
+indices2 <- rep(1:N2, times = length(labels_calibration))
+# Combine repeated_vector and indices using paste
+labels1 <- paste(repeated_vector, indices, sep = "_")
+labels2 <- paste(repeated_vector2, indices2, sep = "_")
+labels_ <- c(labels1,labels2)
+print(labels_) # let's display the labels we want to assign
+labelled_boards_with_unequal_groups <- PTR_generateBoardLayouts2(
+  pots = 40, ## note that we increased the number of pots. In this example, 
+  board_width = 30,
+  board_height = 60,
+  pot_radius = 5,
+  pot_diameter = 5 * 2,
+  pot_rectangle_width = 5 * 2,
+  pot_rectangle_height = 5 * 2,
+  distance = 0,
+  lbls = labels_,
+  pot_type = "square"
+)
+```
+
+```{r LG_sort_by_ID, echo=FALSE, message=FALSE, fig.cap = "Fig 13: For overview-purposes only; this plot does not resemble typical output."}
+labelled_boards_with_unequal_groups_sorted_pots <- PTR::PTR_sortPots_by_potindex(labelled_boards_with_unequal_groups)
+ggpubr::ggarrange(labelled_boards_with_unequal_groups_sorted_pots$board_1$board_plot
+  ,labelled_boards_with_unequal_groups_sorted_pots$board_2$board_plot 
+  + ggplot2::theme(
+      axis.title.y = ggplot2::element_blank()
+      ,axis.ticks.y = ggplot2::element_blank()
+      ,axis.text.y = ggplot2::element_blank()
+      )
+  ,labelled_boards_with_unequal_groups_sorted_pots$board_3$board_plot 
+  + ggplot2::theme(
+      axis.title.y = ggplot2::element_blank()
+      ,axis.ticks.y = ggplot2::element_blank()
+      ,axis.text.y = ggplot2::element_blank()
+      )
+  ,common.legend = T # COMMON LEGEND
+  ,legend = "bottom" # legend position
+  ,align = "hv" # Align them both, horizontal and vertical
+  ,ncol = 3)  # number of rows
+```

@@ -299,24 +299,16 @@ replicates_boards_shifted_sort_pots <- PTR::PTR_sortPots_by_potindex(replicates_
 #> For the example above, this will return 'ABAG_1/ABAU_1/UG_1/UU_1/UG_2/UU_2/...'.
 ```
 
-will refill `replicates_boards_shifted_sort_pots$board_1`:
+will refill `replicates_boards_shifted_sort_pots$board_1` (B), compared
+to `replicates_shift_boards$board_2` (A):
 
 <div class="figure">
 
-<img src="man/figures/README-pot_randomisation_refilles_boards_post1-1.png" alt="Fig.12: board_1 was refilled again." width="100%" />
+<img src="man/figures/README-merged_plots-1.png" alt="Fig 12: (A) Board_1 after rotating boards, but before rearranging labels. (B) Board_1 after both rotating boards and rearranging labels. For overview-purposes only; this plot does not resemble typical output." width="100%" />
 <p class="caption">
-Fig.12: board_1 was refilled again.
-</p>
-
-</div>
-
-compared to `replicates_shift_boards$board_2`:
-
-<div class="figure">
-
-<img src="man/figures/README-pot_randomisation_refilles_boards_post-1.png" alt="Fig.13: board_1 prior to sorting pots by potIndex" width="100%" />
-<p class="caption">
-Fig.13: board_1 prior to sorting pots by potIndex
+Fig 12: (A) Board_1 after rotating boards, but before rearranging
+labels. (B) Board_1 after both rotating boards and rearranging labels.
+For overview-purposes only; this plot does not resemble typical output.
 </p>
 
 </div>
@@ -325,3 +317,52 @@ Thus, it is recommended to call `PTR::PTR_sortPots_by_potindex()`
 *first*, then rotate boards and/or pots. Due to the way the
 sorting-function works, this minor limitation is unlikely to be
 resolved.
+
+``` r
+# this step is not required, but necessary for this example. 
+N <- 8
+N2 <- 2
+labels <- c("UU", "UG", "ABAU", "ABAG")
+repeated_vector <- rep(labels, each = N)
+labels_calibration <- c("cUU","cUG","cABAU","cABAG")
+repeated_vector2 <- rep(labels_calibration,each = N2)
+# Create the indices vector
+indices <- rep(1:N, times = length(labels))
+indices2 <- rep(1:N2, times = length(labels_calibration))
+# Combine repeated_vector and indices using paste
+labels1 <- paste(repeated_vector, indices, sep = "_")
+labels2 <- paste(repeated_vector2, indices2, sep = "_")
+labels_ <- c(labels1,labels2)
+print(labels_) # let's display the labels we want to assign
+#>  [1] "UU_1"    "UU_2"    "UU_3"    "UU_4"    "UU_5"    "UU_6"    "UU_7"   
+#>  [8] "UU_8"    "UG_1"    "UG_2"    "UG_3"    "UG_4"    "UG_5"    "UG_6"   
+#> [15] "UG_7"    "UG_8"    "ABAU_1"  "ABAU_2"  "ABAU_3"  "ABAU_4"  "ABAU_5" 
+#> [22] "ABAU_6"  "ABAU_7"  "ABAU_8"  "ABAG_1"  "ABAG_2"  "ABAG_3"  "ABAG_4" 
+#> [29] "ABAG_5"  "ABAG_6"  "ABAG_7"  "ABAG_8"  "cUU_1"   "cUU_2"   "cUG_1"  
+#> [36] "cUG_2"   "cABAU_1" "cABAU_2" "cABAG_1" "cABAG_2"
+labelled_boards_with_unequal_groups <- PTR_generateBoardLayouts2(
+  pots = 40, ## note that we increased the number of pots. In this example, 
+  board_width = 30,
+  board_height = 60,
+  pot_radius = 5,
+  pot_diameter = 5 * 2,
+  pot_rectangle_width = 5 * 2,
+  pot_rectangle_height = 5 * 2,
+  distance = 0,
+  lbls = labels_,
+  pot_type = "square"
+)
+```
+
+    #> Warning: Note: This function will also sort elements which share the same pot-index (e.g. 'UU_1/UG_1/ABAU_1/ABAG_1/UU_2/UG_2/...' alphabetically within each set of indices.
+    #> For the example above, this will return 'ABAG_1/ABAU_1/UG_1/UU_1/UG_2/UU_2/...'.
+
+<div class="figure">
+
+<img src="man/figures/README-LG_sort_by_ID-1.png" alt="Fig 13: For overview-purposes only; this plot does not resemble typical output." width="100%" />
+<p class="caption">
+Fig 13: For overview-purposes only; this plot does not resemble typical
+output.
+</p>
+
+</div>
