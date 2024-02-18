@@ -230,16 +230,20 @@ replicates_shift_boards <- PTR::PTR_rotateBoards(labelled_boards)
 replicates_boards_shifted_sort_pots <- PTR::PTR_sortPots_by_potindex(replicates_shift_boards)
 ```
 
-will refill `replicates_boards_shifted_sort_pots$board_1`:
-
-```{r pot_randomisation_refilles_boards_post1, echo = FALSE, warning = FALSE, fig.cap = "Fig.12: board_1 was refilled again."}
-replicates_boards_shifted_sort_pots$board_1$board_plot
-```
-
-compared to `replicates_shift_boards$board_2`:
+will refill `replicates_boards_shifted_sort_pots$board_1` (B), compared to `replicates_shift_boards$board_2` (A):
 
 ```{r pot_randomisation_refilles_boards_post, echo = FALSE, warning = FALSE, fig.cap = "Fig.13: board_1 prior to sorting pots by potIndex"}
-replicates_shift_boards$board_1$board_plot
+#replicates_shift_boards$board_1$board_plot
+```
+
+```{r merged_plots,fig.cap = "Fig 12: (A) Board_1 after rotating boards, but before rearranging labels. (B) Board_1 after both rotating boards and rearranging labels.", echo = FALSE, warning = FALSE, results = 'hide'}
+ggpubr::ggarrange(replicates_shift_boards$board_1$board_plot + ggpubr::grids("y",linetype=1) + ggplot2::theme(plot.title=ggplot2::element_blank())
+                                     ,replicates_boards_shifted_sort_pots$board_1$board_plot + ggpubr::grids("y",linetype=1) + ggplot2::theme(plot.title=ggplot2::element_blank())
+                                     ,labels = "AUTO" # labels
+                                     ,common.legend = T # COMMON LEGEND
+                                     ,legend = "bottom" # legend position
+                                     ,align = "hv" # Align them both, horizontal and vertical
+                                     ,ncol = 2)  # number of rows
 ```
 
 Thus, it is recommended to call `PTR::PTR_sortPots_by_potindex()` _first_, then rotate boards and/or pots.

@@ -299,24 +299,15 @@ replicates_boards_shifted_sort_pots <- PTR::PTR_sortPots_by_potindex(replicates_
 #> For the example above, this will return 'ABAG_1/ABAU_1/UG_1/UU_1/UG_2/UU_2/...'.
 ```
 
-will refill `replicates_boards_shifted_sort_pots$board_1`:
+will refill `replicates_boards_shifted_sort_pots$board_1` (B), compared
+to `replicates_shift_boards$board_2` (A):
 
 <div class="figure">
 
-<img src="man/figures/README-pot_randomisation_refilles_boards_post1-1.png" alt="Fig.12: board_1 was refilled again." width="100%" />
+<img src="man/figures/README-merged_plots-1.png" alt="Fig 12: (A) Board_1 after rotating boards, but before rearranging labels. (B) Board_1 after both rotating boards and rearranging labels." width="100%" />
 <p class="caption">
-Fig.12: board_1 was refilled again.
-</p>
-
-</div>
-
-compared to `replicates_shift_boards$board_2`:
-
-<div class="figure">
-
-<img src="man/figures/README-pot_randomisation_refilles_boards_post-1.png" alt="Fig.13: board_1 prior to sorting pots by potIndex" width="100%" />
-<p class="caption">
-Fig.13: board_1 prior to sorting pots by potIndex
+Fig 12: (A) Board_1 after rotating boards, but before rearranging
+labels. (B) Board_1 after both rotating boards and rearranging labels.
 </p>
 
 </div>
