@@ -2,7 +2,7 @@
 % Please edit documentation in R/shifting.R
 \name{PTR_rotatePots}
 \alias{PTR_rotatePots}
-\title{Title}
+\title{Rotate Pots forwards or backwards through a board.}
 \usage{
 PTR_rotatePots(boards, shifts = 2)
 }
