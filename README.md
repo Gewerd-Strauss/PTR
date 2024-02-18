@@ -316,3 +316,76 @@ Thus, it is recommended to call `PTR::PTR_sortPots_by_potindex()`
 *first*, then rotate boards and/or pots. Due to the way the
 sorting-function works, this minor limitation is unlikely to be
 resolved.
+
+``` r
+# this step is not required, but necessary for this example. 
+N <- 8
+N2 <- 2
+labels <- c("UU", "UG", "ABAU", "ABAG")
+repeated_vector <- rep(labels, each = N)
+labels_calibration <- c("cUU","cUG","cABAU","cABAG")
+repeated_vector2 <- rep(labels_calibration,each = N2)
+# Create the indices vector
+indices <- rep(1:N, times = length(labels))
+indices2 <- rep(1:N2, times = length(labels_calibration))
+# Combine repeated_vector and indices using paste
+labels1 <- paste(repeated_vector, indices, sep = "_")
+labels2 <- paste(repeated_vector2, indices2, sep = "_")
+labels_ <- c(labels1,labels2)
+print(labels_) # let's display the labels we want to assign
+#>  [1] "UU_1"    "UU_2"    "UU_3"    "UU_4"    "UU_5"    "UU_6"    "UU_7"   
+#>  [8] "UU_8"    "UG_1"    "UG_2"    "UG_3"    "UG_4"    "UG_5"    "UG_6"   
+#> [15] "UG_7"    "UG_8"    "ABAU_1"  "ABAU_2"  "ABAU_3"  "ABAU_4"  "ABAU_5" 
+#> [22] "ABAU_6"  "ABAU_7"  "ABAU_8"  "ABAG_1"  "ABAG_2"  "ABAG_3"  "ABAG_4" 
+#> [29] "ABAG_5"  "ABAG_6"  "ABAG_7"  "ABAG_8"  "cUU_1"   "cUU_2"   "cUG_1"  
+#> [36] "cUG_2"   "cABAU_1" "cABAU_2" "cABAG_1" "cABAG_2"
+labelled_boards_with_unequal_groups <- PTR_generateBoardLayouts2(
+  pots = 40, ## note that we increased the number of pots. In this example, 
+  board_width = 30,
+  board_height = 60,
+  pot_radius = 5,
+  pot_diameter = 5 * 2,
+  pot_rectangle_width = 5 * 2,
+  pot_rectangle_height = 5 * 2,
+  distance = 0,
+  lbls = labels_,
+  pot_type = "square"
+)
+labelled_boards_with_unequal_groups$board_1$board_plot
+```
+
+<img src="man/figures/README-LG_create_unequal_labels-1.png" width="100%" />
+
+``` r
+labelled_boards_with_unequal_groups$board_2$board_plot
+```
+
+<img src="man/figures/README-LG_create_unequal_labels-2.png" width="100%" />
+
+``` r
+labelled_boards_with_unequal_groups$board_3$board_plot
+```
+
+<img src="man/figures/README-LG_create_unequal_labels-3.png" width="100%" />
+
+``` r
+labelled_boards_with_unequal_groups_sorted_pots <- PTR::PTR_sortPots_by_potindex(labelled_boards_with_unequal_groups)
+#> Warning: Note: This function will also sort elements which share the same pot-index (e.g. 'UU_1/UG_1/ABAU_1/ABAG_1/UU_2/UG_2/...' alphabetically within each set of indices.
+#> For the example above, this will return 'ABAG_1/ABAU_1/UG_1/UU_1/UG_2/UU_2/...'.
+ggpubr::ggarrange(labelled_boards_with_unequal_groups_sorted_pots$board_1$board_plot
+  ,labelled_boards_with_unequal_groups_sorted_pots$board_2$board_plot
+  ,labelled_boards_with_unequal_groups_sorted_pots$board_3$board_plot
+  ,common.legend = T # COMMON LEGEND
+  ,legend = "bottom" # legend position
+  ,align = "hv" # Align them both, horizontal and vertical
+  ,ncol = 3)  # number of rows
+```
+
+<img src="man/figures/README-LG_sort_by_ID-1.png" width="100%" />
+
+``` r
+#cat("\014") ## clear console
+#labelled_boards_with_unequal_groups_sorted_pots$board_1$board_plot
+#labelled_boards_with_unequal_groups_sorted_pots$board_2$board_plot
+#labelle
+```
