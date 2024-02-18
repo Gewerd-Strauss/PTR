@@ -33,6 +33,15 @@ devtools::install_github("https://github.com/Gewerd-Strauss/PTR@master")
 devtools::install_github("https://github.com/Gewerd-Strauss/PTR@dev")
 ```
 
+If help-vignettes are to be downloaded, use instead:
+``` r
+devtools::install_github("https://github.com/Gewerd-Strauss/PTR@master",build_vignettes = T)
+devtools::install_github("https://github.com/Gewerd-Strauss/PTR@dev",build_vignettes = T)
+```
+
+Vignettes are rendered documents discussing specific topics within a package. Installing them is recommended, but not required for utilising the package itself.
+
+
 # Documentation
 
 A Tray-Layout can be defined given the required number of pots, their dimensions, as well as the dimensions of a board.
@@ -212,7 +221,7 @@ As a result, the following order of operations
 labelled_boards <- PTR::PTR_load_dummy_data(9)
 
 # swap around the 2 boards. The 'incomplete' board is now in 'board_1'.
-replicates_shift_boards <- PTR::PTR_rotateBoards2(labelled_boards) 
+replicates_shift_boards <- PTR::PTR_rotateBoards(labelled_boards) 
 
 # sort around the labels so that groups are uniformly distributed.
 # this means that 'replicates_boards_shifted_sort_pots$board_1'
