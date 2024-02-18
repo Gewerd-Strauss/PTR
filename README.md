@@ -53,7 +53,7 @@ can just decide that a `(2)` is a board, or even `(1)`. Up to you.
 ``` r
 library(PTR)
 ## Circular pots
-circle_pots <- PTR_generateBoardLayouts2(
+circle_pots <- PTR::PTR_generateBoardLayouts2(
   pots = 64,
   board_width = 30,
   board_height = 60,
@@ -63,7 +63,7 @@ circle_pots <- PTR_generateBoardLayouts2(
   pot_type = "circle"
 );
 ## Square pots
-square_pots <- PTR_generateBoardLayouts2(
+square_pots <- PTR::PTR_generateBoardLayouts2(
   pots = 64,
   board_width = 30,
   board_height = 60,
@@ -93,7 +93,7 @@ arguments:
 
 ``` r
 ## Rectangular Pots
-rectangle_pots <- PTR_generateBoardLayouts2(
+rectangle_pots <- PTR::PTR_generateBoardLayouts2(
   pots = 17,
   board_width = 30,
   board_height = 60,
@@ -106,7 +106,7 @@ rectangle_pots <- PTR_generateBoardLayouts2(
   pot_type = "rectangle"
 )
 ## Flipping the pot-dimensions 
-rectangle_pots_flipped <- PTR_generateBoardLayouts2(
+rectangle_pots_flipped <- PTR::PTR_generateBoardLayouts2(
   pots = 17,
   board_width = 30,
   board_height = 60,
@@ -118,7 +118,7 @@ rectangle_pots_flipped <- PTR_generateBoardLayouts2(
   lbls = paste0("rectangle12x10_", 1:17),
   pot_type = "rectangle"
 )
-rectangle_pots_not_flipped <- PTR_generateBoardLayouts2(
+rectangle_pots_not_flipped <- PTR::PTR_generateBoardLayouts2(
   pots = 17,
   board_width = 30,
   board_height = 60,
