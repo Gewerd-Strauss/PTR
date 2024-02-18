@@ -150,10 +150,10 @@ rectangle_pots_not_flipped$board_1$board_plot
 
 ## Rotating Boards
 
-Boards can be rotated via the function `PTR::PTR_rotateBoards2()`:
+Boards can be rotated via the function `PTR::PTR_rotateBoards()`:
 
 ```{r rotate_board_forwards, echo = T, results = 'hide', message = FALSE}
-circle_pots_rotated <- PTR::PTR_rotateBoards2(circle_pots,-1)
+circle_pots_rotated <- PTR::PTR_rotateBoards(circle_pots,-1)
 ```
 ```{r circle_plot_rotated_forwards, echo = FALSE, warning = FALSE,fig.cap = "Fig.6: The first board now contains the pots of the previously-last board of 'circle_pots'."}
 circle_pots_rotated$board_1$board_plot

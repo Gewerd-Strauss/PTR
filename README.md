@@ -183,10 +183,10 @@ previous figures.
 
 ## Rotating Boards
 
-Boards can be rotated via the function `PTR::PTR_rotateBoards2()`:
+Boards can be rotated via the function `PTR::PTR_rotateBoards()`:
 
 ``` r
-circle_pots_rotated <- PTR::PTR_rotateBoards2(circle_pots,-1)
+circle_pots_rotated <- PTR::PTR_rotateBoards(circle_pots,-1)
 ```
 
 <div class="figure">

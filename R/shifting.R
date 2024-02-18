@@ -102,7 +102,8 @@ PTR_rotateBoards <- function(boards, shifts = -1) {
 #'
 #' @importFrom stringr str_c
 #' @return a new set of boards containing shifted pots
-#' @export
+#' @keywords internal
+#' @noRd
 #'
 #' @examples
 #' \dontrun{
@@ -116,7 +117,7 @@ PTR_rotateBoards2 <- function(boards, shifts = -1) {
   if (abs(shifts) == length(boards)) {
     swarning <- simpleWarning(
       str_c(
-        "rotateBoards(): ",
+        "rotateBoards2(): ",
         "Your shift will be perfectly circular, putting every board in its previous place."
       )
     )
