@@ -9,8 +9,9 @@
 
 This package includes all functions required for a simplistic
 determination of the required board-space for a given number of pots.
-This is by no means exhaustive, and by no means the best algorithm for
-this kind of packing-problem.
+This is by no means exhaustive, and by no means implements the best
+algorithm for this kind of packing-problem, but a reasonably suitable
+one.
 
 ## Installation
 
@@ -42,11 +43,19 @@ dimensions, as well as the dimensions of a board.
 ## Structure of a shelf
 
 The functions in this package *technically* work on an abstract board of
-any dimension. However, it is designed for the assumption that a `board`
-constitutes the area marked in green (denoted by `(3)`). Obviously, you
-can just decide that a `(2)` is a board, or even `(1)`. Up to you.
+any dimension.
 
 <img src="man/figures/shelf_overview_complete.png" alt="An empty shelf. An entire level is marked as a '1', a side as '2' and a board as '3'." width="100%" />
+
+However, it is designed for the assumption that a `board` constitutes
+the area marked in green (denoted by `(3)`).  
+Obviously, you can just decide that a side `(2)` is a board, or even an
+entire level `(1)`. While this is probably not recommended, the package
+itself does not care for the semantics of what a board actually is. If
+you find yourself having/wanting to place pots across an entire “side”,
+you can just do so. The same goes for an entire level, however at some
+point the structural beams holding up the upper parts of a shelf might
+interfere, depending on the type of pot being placed.
 
 ## Defining boards for circular & square pots
 
@@ -359,10 +368,10 @@ labelled_boards_with_unequal_groups <- PTR_generateBoardLayouts2(
 
 <div class="figure">
 
-<img src="man/figures/README-LG_sort_by_ID-1.png" alt="Fig 13: For overview-purposes only; this plot does not resemble typical output." width="100%" />
+<img src="man/figures/README-LG_sort_by_ID-1.png" alt="Fig 13: For overview-purposes only; this plot does not resemble typical output. Normally, labels would not crowd as much." width="100%" />
 <p class="caption">
 Fig 13: For overview-purposes only; this plot does not resemble typical
-output.
+output. Normally, labels would not crowd as much.
 </p>
 
 </div>
