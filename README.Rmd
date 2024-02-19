@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 <!-- badges: end -->
 
 This package includes all functions required for a simplistic determination of the required board-space for a given number of pots. 
-This is by no means exhaustive, and by no means the best algorithm for this kind of packing-problem.
+This is by no means exhaustive, and by no means implements the best algorithm for this kind of packing-problem, but a reasonably suitable one.
 
 ## Installation
 
@@ -49,12 +49,16 @@ A Tray-Layout can be defined given the required number of pots, their dimensions
 ## Structure of a shelf
 
 The functions in this package _technically_ work on an abstract board of any dimension. 
-However, it is designed for the assumption that a `board` constitutes the area marked in green (denoted by `(3)`).
-Obviously, you can just decide that a `(2)` is a board, or even `(1)`. Up to you.
 
 ```{r shelf_overview, echo = FALSE, fig.alt = "An empty shelf. An entire level is marked as a '1', a side as '2' and a board as '3'."}
 knitr::include_graphics("man/figures/shelf_overview_complete.png",rel_path = T)
 ```
+
+However, it is designed for the assumption that a `board` constitutes the area marked in green (denoted by `(3)`).  
+Obviously, you can just decide that a side `(2)` is a board, or even an entire level `(1)`.
+While this is probably not recommended, the package itself does not care for the semantics of what a board actually is. If you find yourself having/wanting to place pots across an entire "side", you can just do so. 
+The same goes for an entire level, however at some point the structural beams holding up the upper parts of a shelf might interfere, depending on the type of pot being placed. 
+
 
 ## Defining boards for circular & square pots
 
@@ -82,6 +86,7 @@ square_pots <- PTR::PTR_generateBoardLayouts2(
   pot_type = "square"
 )
 ```
+
 The results of `PTR_generateBoardLayouts2()` has the principal structure
 
 ```{r struct_output,eval = F}
@@ -92,6 +97,7 @@ ret
            $input       ## a list denoting the input data
            $version     ## an internal versioning number to be used in various function processing
 ```
+
 ## Defining boards for rectangular pots
 
 Rectangular pots are defined similarly. However, they require additional arguments: 
@@ -141,6 +147,7 @@ rectangle_pots_not_flipped <- PTR::PTR_generateBoardLayouts2(
 ## Example Boards
 
 The following figures showcase the first board for the example-codes above:
+
 ```{r circle_plot, echo = FALSE, warning = FALSE,fig.cap = "Fig.1: The first board for the circle-example above. Note that the x-&y-axis are not equally scaled."}
 circle_pots$board_1$board_plot
 ```
@@ -288,7 +295,7 @@ labelled_boards_with_unequal_groups <- PTR_generateBoardLayouts2(
 )
 ```
 
-```{r LG_sort_by_ID, echo=FALSE, message=FALSE, fig.cap = "Fig 13: For overview-purposes only; this plot does not resemble typical output."}
+```{r LG_sort_by_ID, echo=FALSE, message=FALSE, fig.cap = "Fig 13: For overview-purposes only; this plot does not resemble typical output. Normally, labels would not crowd as much."}
 labelled_boards_with_unequal_groups_sorted_pots <- PTR::PTR_sortPots_by_potindex(labelled_boards_with_unequal_groups)
 ggpubr::ggarrange(labelled_boards_with_unequal_groups_sorted_pots$board_1$board_plot
   ,labelled_boards_with_unequal_groups_sorted_pots$board_2$board_plot 
