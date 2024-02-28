@@ -1,5 +1,27 @@
 #' Title
 #'
+#' @param vector D
+#' @param k D
+#'
+#' @return D
+#' @keywords internal
+#' @noRd
+#'
+#' @examples D
+rotate_elements <- function(vector, k) {
+    # Initialize an empty vector to store the rotated elements
+    rotated_vector <- numeric(length(vector))
+    # Iterate through the vector in chunks of size k
+    for (i in seq(1, length(vector), k)) {
+        chunk <- vector[i:min(i + k - 1, length(vector))]  # Extract a chunk of size k
+        rotated_chunk <- rev(chunk)                         # Reverse the chunk
+        # Replace the corresponding elements in the rotated_vector with the rotated_chunk
+        rotated_vector[i:min(i + k - 1, length(vector))] <- rotated_chunk
+    }
+    return(rotated_vector)
+}
+#' Title
+#'
 #' @param x - vector to shift on
 #' @param n - steps to shift. Positive integers shift left-to-right, while positive integers shift right-to-left
 #' @importFrom utils head
