@@ -1,4 +1,5 @@
-# Example usage for rectangular pots
+#EXAMPLES
+## Example usage for rectangular pots
 layouts_rect <- PTR_generateBoardLayouts2(
 pots = 17,
 board_width = 30,
@@ -10,7 +11,7 @@ lbls = paste0("rectangle_", 1:17),
 pot_type = "rectangle"
 )
 layouts_rect
-# Example usage for circular pots
+## Example usage for circular pots
 layouts_circle <- PTR_generateBoardLayouts2(
 pots = 64,
 board_width = 30,
@@ -21,7 +22,7 @@ lbls = paste0("circle_", 1:64),
 pot_type = "circle"
 )
 layouts_circle
-# Example usage for square pots
+## Example usage for square pots
 layouts_square <- PTR_generateBoardLayouts2(
 pots = 64,
 board_width = 30,

@@ -44,6 +44,7 @@ WARNING: This function does not support rectangular pots. For that, use
 `PTR_generateBoardLayouts2`
 }
 \examples{
+#EXAMPLES
 pots <- 34
 board_width <- 31 # in [unit] - width of a board-section
 board_height <- 30 # in [unit] - height of a board-section

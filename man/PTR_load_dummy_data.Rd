@@ -11,8 +11,8 @@ PTR_load_dummy_data(set = 0)
 \item{set}{Select a dummy testset and return the results
 of `PTR_generateBoardLayouts`/`PTR_generateBoardLayouts2`.
 As a rule, higher values for 'set' become more calculation-intense
-Sets 1-3 leverage `PTR_generateBoardLayouts`
-Sets 4-5 leverage `PTR_generateBoardLayouts2`}
+Sets 1-4 leverage `PTR_generateBoardLayouts`
+Sets 5ff leverage `PTR_generateBoardLayouts2`}
 }
 \value{
 Layouts as defined by `PTR_generateBoardLayouts`

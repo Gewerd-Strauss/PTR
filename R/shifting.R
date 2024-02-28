@@ -1,5 +1,27 @@
 #' Title
 #'
+#' @param vector D
+#' @param k D
+#'
+#' @return D
+#' @keywords internal
+#' @noRd
+#'
+#' @examples D
+rotate_elements <- function(vector, k) {
+    # Initialize an empty vector to store the rotated elements
+    rotated_vector <- numeric(length(vector))
+    # Iterate through the vector in chunks of size k
+    for (i in seq(1, length(vector), k)) {
+        chunk <- vector[i:min(i + k - 1, length(vector))]  # Extract a chunk of size k
+        rotated_chunk <- rev(chunk)                         # Reverse the chunk
+        # Replace the corresponding elements in the rotated_vector with the rotated_chunk
+        rotated_vector[i:min(i + k - 1, length(vector))] <- rotated_chunk
+    }
+    return(rotated_vector)
+}
+#' Title
+#'
 #' @param x - vector to shift on
 #' @param n - steps to shift. Positive integers shift left-to-right, while positive integers shift right-to-left
 #' @importFrom utils head
@@ -240,13 +262,8 @@ PTR_rotatePots <- function(boards, shifts = 2) {
 #' @return boards with shifted pots. The boards themselves remain at their location.
 #' @export
 #'
-#' @examples
-#' \dontrun{
-#' boards_with_consecutive_groups <- PTR_load_dummy_data(4) # load example dummy data
-#' # with custom group-names `c("UU","UG","ABAU","ABAG")`, each repeated 8
-#' # times (`UU1,UU2,UU3,...UG1,UG2,...ABAU1,ABAU2,...ABAG1,...ABAG8`)
-#' newBoards <- PTR_rotatePots(oldBoards, -2)
-#' }
+#' @example man/examples/PTR_sortPots_by_potindex.R
+
 PTR_sortPots_by_potindex <- function(boards, shifts = -1) {
   # Function will rotate pots within each boards
   # TODO: the current function contents does not do this. It does something, but I forgot what purpose _this_ code actually has.
