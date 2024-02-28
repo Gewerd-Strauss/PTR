@@ -1,3 +1,4 @@
+#EXAMPLES
 pots <- 34
 board_width <- 31 # in [unit] - width of a board-section
 board_height <- 30 # in [unit] - height of a board-section
