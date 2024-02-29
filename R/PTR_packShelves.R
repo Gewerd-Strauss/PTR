@@ -124,7 +124,6 @@ private <- function() {
     labels2 <- paste(repeated_vector2, indices2, sep = "_")
     labels_ <- c(labels1,labels2)
     labels_ <- c(labels_,"E_1","E_2","E_3","E_4","E_5","E_6","E_7","E_8","E_9")
-    print(labels_) # let's display the labels we want to assign
     boards <- PTR_generateBoardLayouts2(
         pots = 57, ## note that we increased the number of pots. In this example,
         board_width = 20,
