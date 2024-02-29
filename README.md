@@ -375,3 +375,13 @@ output. Normally, labels would not crowd as much.
 </p>
 
 </div>
+
+## Defining Shelves
+
+After defining boards via `PTR_generateBoardLayouts()` &
+`PTR_generateBoardLayouts2()`, these boards can be arranged into a list
+of shelf-levels. These levels are similarly ordered as the
+`boards`-lists. It should however be noted that this function comes with
+a range of restrictions. Thus its usefulness might be limited. This
+might be extended or deprecated in the future, depending on its
+necessity.

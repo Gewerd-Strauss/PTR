@@ -315,3 +315,8 @@ ggpubr::ggarrange(labelled_boards_with_unequal_groups_sorted_pots$board_1$board_
   ,align = "hv" # Align them both, horizontal and vertical
   ,ncol = 3)  # number of rows
 ```
+
+## Defining Shelves
+
+After defining boards via `PTR_generateBoardLayouts()` & `PTR_generateBoardLayouts2()`, these boards can be arranged into a list of shelf-levels. These levels are similarly ordered as the `boards`-lists. 
+It should however be noted that this function comes with a range of restrictions. Thus its usefulness might be limited. This might be extended or deprecated in the future, depending on its necessity.
