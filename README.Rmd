@@ -60,7 +60,8 @@ While this is probably not recommended, the package itself does not care for the
 The same goes for an entire level, however at some point the structural beams holding up the upper parts of a shelf might interfere, depending on the type of pot being placed. 
 
 
-## Defining boards for circular & square pots
+## Boards
+### Defining boards for circular & square pots
 
 ```{r fdef_circle_square, echo = T, results = 'hide',message = FALSE}
 library(PTR)
@@ -98,7 +99,7 @@ ret
            $version     ## an internal versioning number to be used in various function processing
 ```
 
-## Defining boards for rectangular pots
+### Defining boards for rectangular pots
 
 Rectangular pots are defined similarly. However, they require additional arguments: 
 
@@ -144,7 +145,7 @@ rectangle_pots_not_flipped <- PTR::PTR_generateBoardLayouts2(
 )
 ```
 
-## Example Boards
+### Example Boards
 
 The following figures showcase the first board for the example-codes above:
 
@@ -164,7 +165,7 @@ rectangle_pots_flipped$board_1$board_plot
 rectangle_pots_not_flipped$board_1$board_plot
 ```
 
-## Rotating Boards
+### Rotating Boards
 
 Boards can be rotated via the function `PTR::PTR_rotateBoards()`:
 
@@ -178,7 +179,7 @@ circle_pots_rotated$board_1$board_plot
 circle_pots_rotated$board_2$board_plot
 ```
 
-## Rotating Pots
+### Rotating Pots within a board
 
 Pots can be rotated within a board by using `PTR::PTR_rotatePots()`:
 
@@ -198,7 +199,7 @@ circle_pots_pots_rotated$board_4$board_plot
 Note that a circular shift is not possible on a general board for `N` pots, and therefore
 currently an index-based shift is used.
 
-## Sorting Pots by Replicate-Number
+### Sorting Pots by Replicate-Number
 
 Using `PTR::PTR_sortPots_by_potindex()`, you can sort pots by replicate number.
 This requires two things:
@@ -208,11 +209,17 @@ This requires two things:
 
 ```{r pot_randomisation, message = FALSE, warning = FALSE, include = FALSE}
 square_pots_with_labels <- PTR::PTR_load_dummy_data(9)
-square_pots_with_labels_sorted_by_potindex <- PTR::PTR_sortPots_by_potindex(square_pots_with_labels)
 ```
+
+Normally, pots of the same groups are grouped together: 
 
 ```{r pot_randomisation_pre, echo = FALSE, warning = FALSE, fig.cap = "Fig.10: Pots with names assigned in sequential order"}
 square_pots_with_labels$board_1$board_plot
+```
+
+However, we can sort the pots 
+```{r pot_sort_pots_by_index, echo=TRUE, message=FALSE, results='hide'}
+square_pots_with_labels_sorted_by_potindex <- PTR::PTR_sortPots_by_potindex(square_pots_with_labels)
 ```
 
 ```{r pot_randomisation_post, echo = FALSE, warning = FALSE, fig.cap = "Fig.11: Pots ordered by replicate-index"}
@@ -265,7 +272,7 @@ ggpubr::ggarrange(replicates_shift_boards$board_1$board_plot
 Thus, it is recommended to call `PTR::PTR_sortPots_by_potindex()` _first_, then rotate boards and/or pots.
 Due to the way the sorting-function works, this minor limitation is unlikely to be resolved.
 
-```{r LG_create_unequal_labels, echo = TRUE, message = FALSE}
+```{r LG_create_unequal_labels, echo=TRUE, message=FALSE}
 # this step is not required, but necessary for this example. 
 N <- 8
 N2 <- 2
@@ -315,3 +322,71 @@ ggpubr::ggarrange(labelled_boards_with_unequal_groups_sorted_pots$board_1$board_
   ,align = "hv" # Align them both, horizontal and vertical
   ,ncol = 3)  # number of rows
 ```
+
+## Shelves
+### Defining Shelves
+
+After defining boards via `PTR_generateBoardLayouts()` & `PTR_generateBoardLayouts2()`, these boards can be arranged into a list of shelf-levels. These levels are similarly ordered as the `boards`-lists. 
+To do so, the dimensions of a shelf must first be defined:
+
+```{r define_shelves, echo=TRUE, message=FALSE, results='hide'}
+shelf_definitions <- list(
+    boards_per_level = 4,
+    boards_per_side = 2,
+    labelling_order = "L2R,F2B,D2T"
+)
+```
+
+In this example, we also first need to create a set of boards. If you want to arrange them into shelves, this step should have been done already:
+
+```{r prep_boards}
+N <- 8
+N2 <- 4
+labels <- c("UU", "UG", "ABAU", "ABAG")
+repeated_vector <- rep(labels, each = N)
+labels_calibration <- c("cUU","cUG","cABAU","cABAG")
+repeated_vector2 <- rep(labels_calibration,each = N2)
+# Create the indices vector
+indices <- rep(1:N, times = length(labels))
+indices2 <- rep(1:N2, times = length(labels_calibration))
+# Combine repeated_vector and indices using paste
+labels1 <- paste(repeated_vector, indices, sep = "_")
+labels2 <- paste(repeated_vector2, indices2, sep = "_")
+labels_ <- c(labels1,labels2)
+labels_ <- c(labels_,"E_1","E_2","E_3","E_4","E_5","E_6","E_7","E_8","E_9")
+boards <- PTR_generateBoardLayouts2(
+    pots = 57, ## note that we increased the number of pots. In this example,
+    board_width = 20,
+    board_height = 40,
+    pot_radius = 5,
+    pot_diameter = 5 * 2,
+    pot_rectangle_width = 5 * 2,
+    pot_rectangle_height = 5 * 2,
+    distance = 0,
+    lbls = labels_,
+    pot_type = "square"
+)
+```
+
+And finally, we can put the boards onto shelves:
+```{r package_shelves}
+shelf_layouts <- PTR_packShelves(boards,shelf_definitions) # create shelves for old layout
+print(shelf_layouts)
+```
+
+### Rotating Shelves
+
+Shelves themselves cannot be rotated directly. Instead, one must rotate the boards as many places as can be fit onto a single board. 
+To put it simple, in the above example we can fit 4 boards onto a single shelf. 
+To rotate shelves overall, we thus have to rotate all boards by 4 places forwards or backwards. Afterwards, we can repackage these boards into a new shelf_layouts:
+
+```{r rotate_shelves}
+boards_rotated <- PTR::PTR_rotateBoards(boards,-4)
+shelf_layouts2 <- PTR_packShelves(boards_rotated,shelf_definitions)
+print(shelf_layouts2)
+```
+
+
+It should however be noted that this function comes with a range of restrictions. Thus its usefulness might be limited. This might be extended or deprecated in the future, depending on its necessity.
+
+<!-- Additionally, this is not completely tested yet. There might be issues-->
